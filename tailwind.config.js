@@ -1,5 +1,6 @@
 import defaultTheme from "tailwindcss/defaultTheme";
 import forms from "@tailwindcss/forms";
+import aspecRatio from "@tailwindcss/aspect-ratio";
 
 const WithMT = require("@material-tailwind/react/utils/withMT");
 
@@ -20,5 +21,5 @@ export default WithMT({
         },
     },
 
-    plugins: [forms],
+    plugins: [forms, aspecRatio],
 });

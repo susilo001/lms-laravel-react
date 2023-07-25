@@ -6,9 +6,9 @@ use App\Models\Course;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Assignment>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Quiz>
  */
-class AssignmentFactory extends Factory
+class QuizFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,9 +20,7 @@ class AssignmentFactory extends Factory
         return [
             'course_id' => Course::factory(),
             'name' => $this->faker->name,
-            'description' => $this->faker->text,
-            'max_marks' => $this->faker->numberBetween(1, 10),
-            'due_date' => $this->faker->dateTimeBetween('now', '+1 years'),
+            'total_marks' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

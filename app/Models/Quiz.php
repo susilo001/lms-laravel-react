@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Assignment extends Model
+class Quiz extends Model
 {
     use HasFactory;
 
@@ -14,8 +14,6 @@ class Assignment extends Model
     protected $fillable = [
         'course_id',
         'name',
-        'description',
-        'due_date',
         'total_marks',
     ];
 
@@ -24,8 +22,13 @@ class Assignment extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function submissions()
+    public function questions()
     {
-        return $this->hasMany(UserAssignmentSubmission::class);
+        return $this->hasMany(QuizQuestion::class);
+    }
+
+    public function attempts()
+    {
+        return $this->hasMany(UserQuizAttempt::class);
     }
 }

@@ -20,6 +20,18 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
         ])->assignRole('admin');
 
+        User::factory()->create([
+            'name' => 'Bionda',
+            'email' => 'teacher@gmail.com',
+            'password' => bcrypt('password'),
+        ])->assignRole('teacher');
+
+        User::factory()->create([
+            'name' => 'O-Bio',
+            'email' => 'student@gmail.com',
+            'password' => bcrypt('password'),
+        ])->assignRole('student');
+
         $students = User::factory()->count(10)->create();
         $teachers = User::factory()->count(10)->create();
 

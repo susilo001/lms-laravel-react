@@ -6,9 +6,9 @@ use App\Models\Course;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Assignment>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Module>
  */
-class AssignmentFactory extends Factory
+class ModuleFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -21,8 +21,8 @@ class AssignmentFactory extends Factory
             'course_id' => Course::factory(),
             'name' => $this->faker->name,
             'description' => $this->faker->text,
-            'max_marks' => $this->faker->numberBetween(1, 10),
-            'due_date' => $this->faker->dateTimeBetween('now', '+1 years'),
+            'content' => $this->faker->text,
+            'order_number' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

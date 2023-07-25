@@ -3,8 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Student;
-use App\Models\Teacher;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -24,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar',
     ];
 
     /**
@@ -45,4 +44,46 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
+
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class);
+    }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class);
+    }
+
+    public function userQuizAttempts()
+    {
+        return $this->hasManyThrough(UserQuizAttempt::class, Quiz::class);
+    }
+
+    public function getStudentCount()
+    {
+        $students = $this->with('roles')->get()->filter(
+            fn ($user) => $user->roles->where('name', 'student')->toArray()
+        )->count();
+
+        return $students;
+    }
+    public function getTeacherCount()
+    {
+        $teachers = $this->with('roles')->get()->filter(
+            fn ($user) => $user->roles->where('name', 'teacher')->toArray()
+        )->count();
+
+        return $teachers;
+    }
 }

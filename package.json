@@ -8,16 +8,24 @@
     "devDependencies": {
         "@headlessui/react": "^1.4.2",
         "@inertiajs/react": "^1.0.0",
+        "@tailwindcss/aspect-ratio": "^0.4.2",
         "@tailwindcss/forms": "^0.5.3",
         "@types/node": "^18.13.0",
         "@types/react": "^18.0.28",
         "@types/react-dom": "^18.0.10",
         "@types/ziggy-js": "^1.3.2",
+        "@typescript-eslint/eslint-plugin": "^6.1.0",
+        "@typescript-eslint/parser": "^6.1.0",
         "@vitejs/plugin-react": "^3.0.0",
         "autoprefixer": "^10.4.12",
         "axios": "^1.1.2",
+        "eslint": "^8.45.0",
+        "eslint-plugin-react": "^7.33.0",
         "laravel-vite-plugin": "^0.7.5",
         "postcss": "^8.4.18",
+        "prettier": "^3.0.0",
+        "prettier-plugin-organize-imports": "^3.2.3",
+        "prettier-plugin-tailwindcss": "^0.4.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "tailwindcss": "^3.2.1",
@@ -25,6 +33,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "@material-tailwind/react": "^2.0.6"
+        "@material-tailwind/react": "^2.0.6",
+        "react-icons": "^4.10.1"
     }
 }

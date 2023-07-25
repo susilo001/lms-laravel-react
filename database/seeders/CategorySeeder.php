@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Assignment;
-use Illuminate\Database\Seeder;
+use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 
-class AssignmentSeeder extends Seeder
+class CategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Assignment::factory()->count(10)->create();
+        Category::factory()->count(6)->create();
     }
 }

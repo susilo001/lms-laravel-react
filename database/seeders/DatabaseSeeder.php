@@ -6,13 +6,16 @@ namespace Database\Seeders;
 
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\QuizSeeder;
 use Database\Seeders\UserSeeder;
-use Database\Seeders\GradeSeeder;
-use Database\Seeders\LessonSeeder;
-use Database\Seeders\StudentSeeder;
-use Database\Seeders\TeacherSeeder;
-use Database\Seeders\ClassRoomSeeder;
+use Database\Seeders\CourseSeeder;
+use Database\Seeders\ModuleSeeder;
+use Database\Seeders\QuestionSeeder;
 use Database\Seeders\AssignmentSeeder;
+use Database\Seeders\EnrollmentSeeder;
+use Database\Seeders\UserQuizAttemptSeeder;
+use Database\Seeders\RolesAndPermissionSeeder;
+use Database\Seeders\UserAssignmentSubmissionSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,12 +27,15 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesAndPermissionSeeder::class,
             UserSeeder::class,
-            TeacherSeeder::class,
-            StudentSeeder::class,
-            LessonSeeder::class,
-            GradeSeeder::class,
-            ClassRoomSeeder::class,
+            CategorySeeder::class,
+            CourseSeeder::class,
+            EnrollmentSeeder::class,
+            ModuleSeeder::class,
+            QuizSeeder::class,
+            QuestionSeeder::class,
+            UserQuizAttemptSeeder::class,
             AssignmentSeeder::class,
+            UserAssignmentSubmissionSeeder::class,
         ]);
     }
 }

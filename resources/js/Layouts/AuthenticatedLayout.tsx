@@ -1,20 +1,56 @@
-import { PropsWithChildren } from "react";
-import { Link, usePage } from "@inertiajs/react";
-import { User } from "@/types";
 import SideBar from "@/Components/SideBar";
+import { User } from "@/types";
 import {
-    AcademicCapIcon,
     Bars3Icon,
-    XMarkIcon,
     CheckCircleIcon,
+    ChevronDownIcon,
+    Cog6ToothIcon,
+    InboxArrowDownIcon,
+    LifebuoyIcon,
+    PowerIcon,
+    UserCircleIcon,
+    XMarkIcon,
 } from "@heroicons/react/24/solid";
+import { Link, usePage } from "@inertiajs/react";
+import React, { PropsWithChildren } from "react";
 
-import React from "react";
+import {
+    Alert,
+    Avatar,
+    Breadcrumbs,
+    Button,
+    IconButton,
+    Menu,
+    MenuHandler,
+    MenuItem,
+    MenuList,
+    Navbar,
+    Typography,
+} from "@material-tailwind/react";
 
-import { Alert, Typography } from "@material-tailwind/react";
-
-import { useNavigationController, setOpenSidenav } from "@/Context";
-import { Avatar, IconButton } from "@material-tailwind/react";
+import { setOpenSidenav, useNavigationController } from "@/Context";
+const profileMenuItems = [
+    {
+        label: "My Profile",
+        icon: UserCircleIcon,
+    },
+    {
+        label: "Edit Profile",
+        icon: Cog6ToothIcon,
+    },
+    {
+        label: "Inbox",
+        icon: InboxArrowDownIcon,
+    },
+    {
+        label: "Help",
+        icon: LifebuoyIcon,
+    },
+    {
+        label: "Sign Out",
+        icon: PowerIcon,
+    },
+];
 
 export default function Authenticated({
     user,
@@ -22,45 +58,114 @@ export default function Authenticated({
 }: PropsWithChildren<{ user: User }>) {
     const { controller, dispatch } = useNavigationController();
     const [open, setOpen] = React.useState(true);
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const closeMenu = () => setIsMenuOpen(false);
 
     const { openSidenav } = controller;
 
     const { errors } = usePage().props;
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100">
-                <div className="px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16 items-center">
-                        <div className="flex">
-                            <div className="shrink-0 flex items-center">
-                                <Link href="/">
-                                    <div className="mb-2 flex items-center gap-4 p-4">
-                                        <AcademicCapIcon className="h-8 w-8" />
-                                        <Typography
-                                            variant="h5"
-                                            color="blue-gray"
-                                        >
-                                            E-Learning
-                                        </Typography>
-                                    </div>
-                                </Link>
-                            </div>
-                        </div>
+        <div className="min-h-screen bg-blue-gray-50/50">
+            <SideBar user={user} />
 
-                        <div className="hidden xl:flex xl:items-center xl:ml-6">
-                            <div className="ml-3 relative">
-                                <div className="flex items-center gap-4">
-                                    <Avatar
-                                        src="https://picsum.photos/200"
-                                        alt="avatar"
-                                        className="cursor-pointer hover:opacity-80 transition-opacity duration-300 w-10 h-10"
-                                    />
-                                    <div>
-                                        <Typography>{user.name}</Typography>
-                                    </div>
-                                </div>
-                            </div>
+            <div className="space-y-4 p-4 xl:ml-80">
+                <Navbar
+                    className="transition-all duration-300"
+                    fullWidth
+                    color="transparent"
+                    shadow={false}
+                    blurred={false}
+                >
+                    <div className="flex items-center justify-between">
+                        <Breadcrumbs>
+                            <Link href="/">Home</Link>
+                            <Link href="/dashboard">Dashboard</Link>
+                        </Breadcrumbs>
+
+                        <div className="hidden xl:ml-6 xl:flex xl:items-center">
+                            <Menu
+                                open={isMenuOpen}
+                                handler={setIsMenuOpen}
+                                placement="bottom-end"
+                            >
+                                <MenuHandler>
+                                    <Button
+                                        variant="text"
+                                        color="blue-gray"
+                                        className="flex items-center gap-2 rounded-full py-0.5 pl-0.5 pr-2 lg:ml-auto"
+                                    >
+                                        <Avatar
+                                            variant="circular"
+                                            size="sm"
+                                            alt={user.name}
+                                            className="border border-blue-500 p-0.5"
+                                            src={user.avatar}
+                                        />
+                                        <div className="flex flex-col items-start justify-start">
+                                            <Typography
+                                                variant="lead"
+                                                className="text-[10px] font-bold"
+                                            >
+                                                {user.name}
+                                            </Typography>
+                                            <Typography
+                                                variant="lead"
+                                                className="text-[10px]"
+                                            >
+                                                {user.roles[0].name}
+                                            </Typography>
+                                        </div>
+                                        <ChevronDownIcon
+                                            strokeWidth={2.5}
+                                            className={`h-3 w-3 transition-transform ${
+                                                isMenuOpen ? "rotate-180" : ""
+                                            }`}
+                                        />
+                                    </Button>
+                                </MenuHandler>
+                                <MenuList className="p-1">
+                                    {profileMenuItems.map(
+                                        ({ label, icon }, key) => {
+                                            const isLastItem =
+                                                key ===
+                                                profileMenuItems.length - 1;
+                                            return (
+                                                <MenuItem
+                                                    key={label}
+                                                    onClick={closeMenu}
+                                                    className={`flex items-center gap-2 rounded ${
+                                                        isLastItem
+                                                            ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                                                            : ""
+                                                    }`}
+                                                >
+                                                    {React.createElement(icon, {
+                                                        className: `h-4 w-4 ${
+                                                            isLastItem
+                                                                ? "text-red-500"
+                                                                : ""
+                                                        }`,
+                                                        strokeWidth: 2,
+                                                    })}
+                                                    <Typography
+                                                        as="span"
+                                                        variant="small"
+                                                        className="font-normal"
+                                                        color={
+                                                            isLastItem
+                                                                ? "red"
+                                                                : "inherit"
+                                                        }
+                                                    >
+                                                        {label}
+                                                    </Typography>
+                                                </MenuItem>
+                                            );
+                                        },
+                                    )}
+                                </MenuList>
+                            </Menu>
                         </div>
 
                         <div className="-mr-2 flex items-center xl:hidden">
@@ -79,12 +184,8 @@ export default function Authenticated({
                             </IconButton>
                         </div>
                     </div>
-                </div>
-            </nav>
+                </Navbar>
 
-            <SideBar user={user} />
-
-            <div className="p-4 xl:ml-80 space-y-4">
                 {errors["error"] && (
                     <Alert
                         open={open}
@@ -100,6 +201,7 @@ export default function Authenticated({
                         </Typography>
                     </Alert>
                 )}
+
                 <main>{children}</main>
             </div>
         </div>

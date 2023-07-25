@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Assignment extends Model
+class Module extends Model
 {
     use HasFactory;
 
@@ -15,17 +15,12 @@ class Assignment extends Model
         'course_id',
         'name',
         'description',
-        'due_date',
-        'total_marks',
+        'content',
+        'order_number',
     ];
 
     public function course()
     {
         return $this->belongsTo(Course::class);
-    }
-
-    public function submissions()
-    {
-        return $this->hasMany(UserAssignmentSubmission::class);
     }
 }
