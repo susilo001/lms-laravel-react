@@ -60,14 +60,14 @@ class User extends Authenticatable
         return $this->hasMany(Enrollment::class);
     }
 
-    public function quizzes()
-    {
-        return $this->hasMany(Quiz::class);
-    }
-
     public function userQuizAttempts()
     {
         return $this->hasManyThrough(UserQuizAttempt::class, Quiz::class);
+    }
+
+    public function userAssignmentSubmissions()
+    {
+        return $this->hasMany(UserAssignmentSubmission::class);
     }
 
     public function getStudentCount()
