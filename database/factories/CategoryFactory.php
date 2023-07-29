@@ -18,19 +18,16 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         $name = fake()->unique()->randomElement([
-            'Web Development',
-            'Mobile Development',
-            'Game Development',
-            'Data Science',
-            'Machine Learning',
-            'Artificial Intelligence',
-            'Business',
-            'Finance & Accounting',
-            'Marketing',
-            'Personal Development',
-            'Health & Fitness',
-            'Music',
-            'Teaching & Academics',
+            'IPS',
+            'IPA',
+            'Bahasa',
+            'Matematika',
+            'Biologi',
+            'Fisika',
+            'Kimia',
+            'Sejarah',
+            'Geografi',
+            'Sosiologi',
         ]);
 
         $slug = Str::slug($name);

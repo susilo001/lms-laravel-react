@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Models\Assignment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,8 +19,8 @@ class UserAssignmentSubmissionFactory extends Factory
     public function definition(): array
     {
         return [
-            'assignment_id' => \App\Models\Assignment::factory(),
-            'user_id' => \App\Models\User::factory(),
+            'assignment_id' => Assignment::factory(),
+            'user_id' => User::factory(),
             'submission_date' => $this->faker->date(),
             'submission_file' => $this->faker->text,
             'submission_text' => $this->faker->text,

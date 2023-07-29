@@ -19,7 +19,7 @@ class CourseFactory extends Factory
      */
     public function definition(): array
     {
-        $title = $this->faker->realText(10);
+        $title = $this->faker->sentence(3, true);
         $slug = Str::slug($title);
 
         return [
