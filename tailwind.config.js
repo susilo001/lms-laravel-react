@@ -1,6 +1,6 @@
-import defaultTheme from "tailwindcss/defaultTheme";
-import forms from "@tailwindcss/forms";
 import aspecRatio from "@tailwindcss/aspect-ratio";
+import forms from "@tailwindcss/forms";
+import defaultTheme from "tailwindcss/defaultTheme";
 
 const WithMT = require("@material-tailwind/react/utils/withMT");
 
@@ -11,6 +11,8 @@ export default WithMT({
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
         "./resources/js/**/*.tsx",
+        "./resources/js/**/**/*.tsx",
+        "./resources/js/**/**/**/*.tsx",
     ],
 
     theme: {

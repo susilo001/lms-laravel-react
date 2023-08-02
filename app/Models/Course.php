@@ -24,14 +24,19 @@ class Course extends Model
         'created_at' => 'datetime:d M Y',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function user()
+    public function modules()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(Module::class);
     }
 
     public function assignments()
@@ -39,23 +44,13 @@ class Course extends Model
         return $this->hasMany(Assignment::class);
     }
 
-    public function enrollments()
-    {
-        return $this->hasMany(Enrollment::class);
-    }
-
     public function quizzes()
     {
         return $this->hasMany(Quiz::class);
     }
 
-    public function userQuizAttempts()
+    public function enrollments()
     {
-        return $this->hasManyThrough(UserQuizAttempt::class, Quiz::class);
-    }
-
-    public function modules()
-    {
-        return $this->hasMany(Module::class);
+        return $this->hasMany(Enrollment::class);
     }
 }

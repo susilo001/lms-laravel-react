@@ -125,12 +125,16 @@ export default function SideBar({ user }: { user: User }) {
                             </Typography>
                         </div>
                     </ListItem>
-                    <ListItem>
-                        <ListItemPrefix>
-                            <Cog6ToothIcon className="h-5 w-5" />
-                        </ListItemPrefix>
-                        Settings
-                    </ListItem>
+                    <Link href="/profile">
+                        <ListItem>
+                            <ListItemPrefix>
+                                <Cog6ToothIcon className="h-5 w-5" />
+                            </ListItemPrefix>
+                            <Typography color="blue-gray" className="mr-auto">
+                                Settings
+                            </Typography>
+                        </ListItem>
+                    </Link>
                     <Link href="/logout" method="post" as="button">
                         <ListItem>
                             <ListItemPrefix>

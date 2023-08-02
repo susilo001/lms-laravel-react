@@ -11,9 +11,64 @@ export interface Role {
     name: string;
 }
 
+export interface Category {
+    id: number;
+    name: string;
+    slug: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Course {
+    id: number;
+    title: string;
+    slug: string;
+    description: string;
+    user_id: number;
+    user: User;
+    category_id: number;
+    created_at: string;
+    updated_at: string;
+    modules?: Module[];
+    assignments?: Assignment[];
+    quizzes?: Quiz[];
+    enrollments_count?: number;
+}
+
+export interface Module {
+    id: number;
+    name: string;
+    description: string;
+    content: string;
+    order_number: number;
+    course_id: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Assignment {
+    id: number;
+    name: string;
+    description: string;
+    due_date: string;
+    total_marks: number;
+    course_id: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Quiz {
+    id: number;
+    name: string;
+    total_marks: number;
+    course_id: number;
+    created_at: string;
+    updated_at: string;
+}
+
 export interface Pagination<T> {
     current_page: number;
-    data: Data<T>;
+    data: T[];
     first_page_url: string;
     from: number;
     last_page: number;
@@ -27,24 +82,13 @@ export interface Pagination<T> {
     total: number;
 }
 
-export interface Course {
-    id: number;
-    title: string;
-    slug: string;
-    description: string;
-    created_at: string;
-    updated_at: string;
-    user_id: number;
-    user: User;
-}
-
 export interface Link {
     url: string | null;
     label: string;
     active: boolean;
 }
 
-export type Data<T> = T[];
+export interface Courses extends Pagination<Course> {}
 
 export interface latestCourses extends Pagination<Course> {}
 
@@ -54,4 +98,9 @@ export type PageProps<
     auth: {
         user: User;
     };
+    flash: {
+        message: string;
+        status: "Success" | "Error" | "Warning" | "Info" | null;
+    };
+    breadcrumbs: string;
 };

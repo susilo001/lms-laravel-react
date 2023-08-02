@@ -33,6 +33,11 @@ class HandleInertiaRequests extends Middleware
         $roleName = $request->user() ? $request->user()->getRoleNames()->first() : null;
 
         return array_merge(parent::share($request), [
+            'flash' => [
+                'message' => fn () => $request->session()->get('message'),
+                'status' => fn () => $request->session()->get('status'),
+            ],
+            'breadcrumbs' => fn () => $request->path(),
             'auth' => [
                 'user' => $request->user(),
                 'role' => $roleName,

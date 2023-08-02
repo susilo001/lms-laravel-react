@@ -1,14 +1,13 @@
 import SideBar from "@/Components/SideBar";
-import { User } from "@/types";
+import { PageProps } from "@/types";
 import {
     Bars3Icon,
-    CheckCircleIcon,
     ChevronDownIcon,
-    Cog6ToothIcon,
     InboxArrowDownIcon,
     LifebuoyIcon,
     PowerIcon,
     UserCircleIcon,
+    XCircleIcon,
     XMarkIcon,
 } from "@heroicons/react/24/solid";
 import { Link, usePage } from "@inertiajs/react";
@@ -28,46 +27,46 @@ import {
     Typography,
 } from "@material-tailwind/react";
 
+import { Notification } from "@/Components/Notification";
 import { setOpenSidenav, useNavigationController } from "@/Context";
+
 const profileMenuItems = [
     {
         label: "My Profile",
         icon: UserCircleIcon,
-    },
-    {
-        label: "Edit Profile",
-        icon: Cog6ToothIcon,
+        link: "/profile",
     },
     {
         label: "Inbox",
         icon: InboxArrowDownIcon,
+        link: "#",
     },
     {
         label: "Help",
         icon: LifebuoyIcon,
+        link: "#",
     },
     {
         label: "Sign Out",
         icon: PowerIcon,
+        link: "/logout",
     },
 ];
 
-export default function Authenticated({
-    user,
-    children,
-}: PropsWithChildren<{ user: User }>) {
+export default function Authenticated({ children }: PropsWithChildren) {
     const { controller, dispatch } = useNavigationController();
+
     const [open, setOpen] = React.useState(true);
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const closeMenu = () => setIsMenuOpen(false);
 
     const { openSidenav } = controller;
 
-    const { errors } = usePage().props;
+    const { errors, flash, breadcrumbs, auth } = usePage<PageProps>().props;
 
     return (
         <div className="min-h-screen bg-blue-gray-50/50">
-            <SideBar user={user} />
+            <SideBar user={auth.user} />
 
             <div className="space-y-4 p-4 xl:ml-80">
                 <Navbar
@@ -81,6 +80,9 @@ export default function Authenticated({
                         <Breadcrumbs>
                             <Link href="/">Home</Link>
                             <Link href="/dashboard">Dashboard</Link>
+                            <Link disabled href="#">
+                                {breadcrumbs}
+                            </Link>
                         </Breadcrumbs>
 
                         <div className="hidden xl:ml-6 xl:flex xl:items-center">
@@ -98,22 +100,22 @@ export default function Authenticated({
                                         <Avatar
                                             variant="circular"
                                             size="sm"
-                                            alt={user.name}
+                                            alt={auth.user.name}
                                             className="border border-blue-500 p-0.5"
-                                            src={user.avatar}
+                                            src={auth.user.avatar}
                                         />
                                         <div className="flex flex-col items-start justify-start">
                                             <Typography
                                                 variant="lead"
                                                 className="text-[10px] font-bold"
                                             >
-                                                {user.name}
+                                                {auth.user.name}
                                             </Typography>
                                             <Typography
                                                 variant="lead"
                                                 className="text-[10px]"
                                             >
-                                                {user.roles[0].name}
+                                                {auth.user.roles[0].name}
                                             </Typography>
                                         </div>
                                         <ChevronDownIcon
@@ -126,41 +128,53 @@ export default function Authenticated({
                                 </MenuHandler>
                                 <MenuList className="p-1">
                                     {profileMenuItems.map(
-                                        ({ label, icon }, key) => {
+                                        ({ label, icon, link }, key) => {
                                             const isLastItem =
                                                 key ===
                                                 profileMenuItems.length - 1;
                                             return (
-                                                <MenuItem
+                                                <Link
+                                                    href={link}
                                                     key={label}
-                                                    onClick={closeMenu}
-                                                    className={`flex items-center gap-2 rounded ${
+                                                    method={
                                                         isLastItem
-                                                            ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
-                                                            : ""
-                                                    }`}
+                                                            ? "post"
+                                                            : "get"
+                                                    }
                                                 >
-                                                    {React.createElement(icon, {
-                                                        className: `h-4 w-4 ${
+                                                    <MenuItem
+                                                        onClick={closeMenu}
+                                                        className={`flex items-center gap-2 rounded ${
                                                             isLastItem
-                                                                ? "text-red-500"
+                                                                ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
                                                                 : ""
-                                                        }`,
-                                                        strokeWidth: 2,
-                                                    })}
-                                                    <Typography
-                                                        as="span"
-                                                        variant="small"
-                                                        className="font-normal"
-                                                        color={
-                                                            isLastItem
-                                                                ? "red"
-                                                                : "inherit"
-                                                        }
+                                                        }`}
                                                     >
-                                                        {label}
-                                                    </Typography>
-                                                </MenuItem>
+                                                        {React.createElement(
+                                                            icon,
+                                                            {
+                                                                className: `h-4 w-4 ${
+                                                                    isLastItem
+                                                                        ? "text-red-500"
+                                                                        : ""
+                                                                }`,
+                                                                strokeWidth: 2,
+                                                            },
+                                                        )}
+                                                        <Typography
+                                                            as="span"
+                                                            variant="small"
+                                                            className="font-normal"
+                                                            color={
+                                                                isLastItem
+                                                                    ? "red"
+                                                                    : "inherit"
+                                                            }
+                                                        >
+                                                            {label}
+                                                        </Typography>
+                                                    </MenuItem>
+                                                </Link>
                                             );
                                         },
                                     )}
@@ -186,22 +200,36 @@ export default function Authenticated({
                     </div>
                 </Navbar>
 
-                {errors["error"] && (
+                {/*
+                 * validation error alert
+                 */}
+                {Object.keys(errors).length !== 0 && (
                     <Alert
                         open={open}
-                        color="green"
-                        icon={<CheckCircleIcon className="mt-px h-6 w-6" />}
+                        color="red"
+                        icon={<XCircleIcon className="mt-px h-6 w-6" />}
                         onClose={() => setOpen(false)}
                     >
-                        <Typography variant="h5" color="white">
-                            {errors["status"]}
+                        <Typography className="font-medium">
+                            Validation Error Occurred!
                         </Typography>
-                        <Typography color="white" className="mt-2 font-normal">
-                            {errors["message"]}
-                        </Typography>
+                        <ul className="ml-2 mt-2 list-inside list-disc">
+                            {Object.keys(errors).map((key) => (
+                                <li key={key}>{errors[key]}</li>
+                            ))}
+                        </ul>
                     </Alert>
                 )}
 
+                {/*
+                 * flash message alert
+                 */}
+                {flash.status !== null && flash.message !== null && (
+                    <Notification
+                        message={flash.message}
+                        status={flash.status}
+                    />
+                )}
                 <main>{children}</main>
             </div>
         </div>

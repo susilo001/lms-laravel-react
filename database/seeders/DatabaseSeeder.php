@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CategorySeeder::class,
             CourseSeeder::class,
+            ModuleSeeder::class,
             QuizSeeder::class,
             QuestionSeeder::class,
             AssignmentSeeder::class,

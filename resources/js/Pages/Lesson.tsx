@@ -4,9 +4,9 @@ import { Head } from "@inertiajs/react";
 
 import { Button, Card, Input, Typography } from "@material-tailwind/react";
 
-export default function Lesson({ auth }: PageProps) {
+export default function Lesson({}: PageProps) {
     return (
-        <AuthenticatedLayout user={auth.user}>
+        <AuthenticatedLayout>
             <Head title="Lesson" />
 
             <div className="grid gap-4 lg:grid-cols-3">

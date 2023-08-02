@@ -2,39 +2,49 @@
 
 namespace App\Http\Controllers\Teacher;
 
-use App\Http\Controllers\Controller;
-use App\Models\Course;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Course;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateCourseRequest;
 
 class CourseController extends Controller
 {
     public function index()
     {
         return Inertia::render('Teacher/Course/Index', [
-            'courses' => Course::where('user_id', auth()->user()->id)->get()
+            'courses' => Course::withCount('enrollments')->where('user_id', auth()->user()->id)->paginate(10),
+            'categories' => Category::all(['id', 'name']),
         ]);
-    }
-
-    public function create()
-    {
-        return view('teacher.course.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'code' => 'required|unique:courses',
-            'credit' => 'required',
+            'title' => 'required',
+            'slug' => 'required|unique:courses,slug',
             'description' => 'required',
+            'category_id' => 'required',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
         ]);
 
-        Course::create($request->all());
+        if ($request->hasFile('image')) {
+            $image = $request->file('image')->store('images/courses', 'public');
+        }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Course created successfully'
+        Course::create([
+            'title' => $request->title,
+            'slug' => $request->slug,
+            'description' => $request->description,
+            'category_id' => $request->category_id,
+            'image' => $image,
+            'user_id' => auth()->user()->id,
+        ]);
+
+        return redirect()->route('course.index')->with([
+            'message' => 'Course created successfully',
+            'status' => 'Success',
         ]);
     }
 
@@ -45,19 +55,30 @@ class CourseController extends Controller
 
     public function edit(Course $course)
     {
-        return view('teacher.course.edit', compact('course'));
+        return Inertia::render('Teacher/Course/Edit', [
+            'course' => $course->with(['modules', 'assignments', 'quizzes'])->first(),
+            'categories' => Category::all(['id', 'name']),
+        ]);
     }
 
-    public function update(Request $request, Course $course)
+    public function update(UpdateCourseRequest $request, Course $course)
     {
-        $request->validate([
-            'name' => 'required',
-            'code' => 'required|unique:courses,code,' . $course->id,
-            'credit' => 'required',
-            'description' => 'required',
-        ]);
+        $request->validated();
 
-        $course->update($request->all());
+        if ($request->file('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->extension();
+            $image->move(public_path('images/courses'), $imageName);
+            $course->image = $imageName;
+        }
+
+        $course->update([
+            'title' => $request->title,
+            'slug' => $request->slug,
+            'description' => $request->description,
+            'category_id' => $request->category_id,
+            'image' => $imageName,
+        ]);
 
         return response()->json([
             'success' => true,
@@ -69,9 +90,9 @@ class CourseController extends Controller
     {
         $course->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Course deleted successfully'
+        return redirect()->route('course.index')->with([
+            'message' => 'Course deleted successfully',
+            'status' => 'Success',
         ]);
     }
 }

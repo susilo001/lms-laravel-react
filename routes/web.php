@@ -7,6 +7,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Teacher\QuizController;
 use App\Http\Controllers\Teacher\CourseController;
+use App\Http\Controllers\Teacher\ModuleController;
+use App\Http\Controllers\Teacher\AssignmentController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -31,10 +33,21 @@ Route::middleware('auth')->group(function () {
      * Teacher Routes
      */
     Route::group(['middleware' => ['role:teacher']], function () {
-        Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
-        Route::post('/course', [CourseController::class, 'store'])->name('courses.store');
-        Route::patch('/course/{course:slug}', [CourseController::class, 'update'])->name('courses.update');
-        Route::delete('/course/{course:slug}', [CourseController::class, 'destroy'])->name('courses.destroy');
+        Route::get('/courses', [CourseController::class, 'index'])->name('course.index');
+        Route::post('/course', [CourseController::class, 'store'])->name('course.store');
+        Route::get('/course/{course:slug}/edit', [CourseController::class, 'edit'])->name('course.edit');
+        Route::patch('/course/{course:slug}', [CourseController::class, 'update'])->name('course.update');
+        Route::delete('/course/{course:slug}', [CourseController::class, 'destroy'])->name('course.destroy');
+
+        Route::get('/modules', [ModuleController::class, 'index'])->name('modules.index');
+        Route::post('/module', [ModuleController::class, 'store'])->name('modules.store');
+        Route::patch('/module/{module}', [ModuleController::class, 'update'])->name('modules.update');
+        Route::delete('/module/{module}', [ModuleController::class, 'destroy'])->name('modules.destroy');
+
+        Route::get('/assignments', [AssignmentController::class, 'index'])->name('assignments.index');
+        Route::post('/assignment', [AssignmentController::class, 'store'])->name('assignments.store');
+        Route::patch('/assignment/{assignment}', [AssignmentController::class, 'update'])->name('assignments.update');
+        Route::delete('/assignment/{assignment}', [AssignmentController::class, 'destroy'])->name('assignments.destroy');
 
         Route::get('/quizzes', [QuizController::class, 'index'])->name('quizzes.index');
         Route::post('/quiz', [QuizController::class, 'store'])->name('quizzes.store');
