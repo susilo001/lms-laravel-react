@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Teacher;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Assignment;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AssignmentController extends Controller
 {
@@ -22,9 +23,11 @@ class AssignmentController extends Controller
         dd($request->all());
     }
 
-    public function show()
+    public function show(Assignment $assignment)
     {
-        //
+        return Inertia::render('Assignment', [
+            'assignment' => $assignment
+        ]);
     }
 
     public function edit()

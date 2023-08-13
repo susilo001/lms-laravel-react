@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Teacher;
+namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Course;
@@ -13,9 +13,12 @@ class CourseController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Teacher/Course/Index', [
-            'courses' => Course::withCount('enrollments')->where('user_id', auth()->user()->id)->paginate(10),
-            'categories' => Category::all(['id', 'name']),
+        $courses = Course::with(['user', 'category', 'modules'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(8);
+
+        return Inertia::render('Course/Index', [
+            'courses' => $courses
         ]);
     }
 
@@ -50,7 +53,9 @@ class CourseController extends Controller
 
     public function show(Course $course)
     {
-        return view('teacher.course.show', compact('course'));
+        return Inertia::render('Course/Show', [
+            'course' => $course->with(['modules', 'assignments', 'quizzes', 'category', 'user'])->first(),
+        ]);
     }
 
     public function edit(Course $course)

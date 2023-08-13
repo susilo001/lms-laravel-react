@@ -18,7 +18,7 @@ class QuestionSeeder extends Seeder
 
         $quizzes->each(function ($quiz) {
             Question::factory()
-                ->count(3)
+                ->count(15)
                 ->for($quiz)
                 ->create();
         });

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('question');
             $table->json('options')->nullable();
             $table->text('correct_answer');
+            $table->integer('score');
             $table->timestamps();
         });
     }

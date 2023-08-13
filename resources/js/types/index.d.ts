@@ -24,8 +24,10 @@ export interface Course {
     title: string;
     slug: string;
     description: string;
+    image: string;
     user_id: number;
     user: User;
+    category: Category;
     category_id: number;
     created_at: string;
     updated_at: string;
@@ -61,9 +63,23 @@ export interface Quiz {
     id: number;
     name: string;
     total_marks: number;
+    questions?: Question[];
     course_id: number;
     created_at: string;
     updated_at: string;
+}
+
+export interface Question {
+    id: number;
+    question: string;
+    options: [] | Option[];
+    correct_answer: string;
+    quiz_id: number;
+}
+
+export interface Option {
+    key: string;
+    value: string;
 }
 
 export interface Pagination<T> {
@@ -87,10 +103,6 @@ export interface Link {
     label: string;
     active: boolean;
 }
-
-export interface Courses extends Pagination<Course> {}
-
-export interface latestCourses extends Pagination<Course> {}
 
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>,

@@ -13,7 +13,6 @@ class UserAssignmentSubmission extends Model
         'assignment_id',
         'user_id',
         'submission_file',
-        'submission_text',
         'submission_date',
     ];
 

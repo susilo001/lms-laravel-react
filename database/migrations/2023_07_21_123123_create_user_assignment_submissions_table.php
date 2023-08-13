@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('assignment_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('submission_file');
-            $table->text('submission_text');
             $table->date('submission_date');
             $table->timestamps();
         });

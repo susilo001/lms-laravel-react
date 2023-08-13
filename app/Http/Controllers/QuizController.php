@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Teacher;
+namespace App\Http\Controllers;
 
+use App\Models\Quiz;
 use App\Models\Course;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Quiz;
+use Inertia\Inertia;
 
 class QuizController extends Controller
 {
@@ -29,9 +29,11 @@ class QuizController extends Controller
         ]);
     }
 
-    public function show(Course $course)
+    public function show(Quiz $quiz)
     {
-        return view('teacher.course.show', compact('course'));
+        return Inertia::render('Quiz', [
+            'quiz' => $quiz->load('questions')
+        ]);
     }
 
     public function edit(Course $course)

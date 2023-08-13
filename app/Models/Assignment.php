@@ -19,6 +19,10 @@ class Assignment extends Model
         'total_marks',
     ];
 
+    protected $casts = [
+        'due_date' => 'datetime:d M Y',
+    ];
+
     public function course()
     {
         return $this->belongsTo(Course::class);

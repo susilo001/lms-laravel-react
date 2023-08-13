@@ -25,10 +25,10 @@ class CourseFactory extends Factory
         return [
             'title' => $title,
             'slug' => $slug,
-            'description' => $this->faker->realText(100),
+            'description' => $this->faker->realText(200),
             'user_id' => User::factory(),
             'category_id' => Category::factory(),
-            'image' => 'https://source.unsplash.com/random/800x600',
+            'image' => 'https://picsum.photos/id/' . rand(1, 1000) . '/800/600',
         ];
     }
 }

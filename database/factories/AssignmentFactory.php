@@ -20,7 +20,7 @@ class AssignmentFactory extends Factory
         return [
             'course_id' => Course::factory(),
             'name' => $this->faker->name,
-            'description' => $this->faker->text,
+            'description' => $this->faker->realText(200),
             'max_marks' => $this->faker->numberBetween(1, 10),
             'due_date' => $this->faker->dateTimeBetween('now', '+1 years'),
         ];

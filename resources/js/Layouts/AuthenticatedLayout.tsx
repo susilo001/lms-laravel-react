@@ -3,6 +3,7 @@ import { PageProps } from "@/types";
 import {
     Bars3Icon,
     ChevronDownIcon,
+    HomeIcon,
     InboxArrowDownIcon,
     LifebuoyIcon,
     PowerIcon,
@@ -55,12 +56,11 @@ const profileMenuItems = [
 
 export default function Authenticated({ children }: PropsWithChildren) {
     const { controller, dispatch } = useNavigationController();
+    const { openSidenav } = controller;
 
     const [open, setOpen] = React.useState(true);
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const closeMenu = () => setIsMenuOpen(false);
-
-    const { openSidenav } = controller;
 
     const { errors, flash, breadcrumbs, auth } = usePage<PageProps>().props;
 
@@ -68,123 +68,17 @@ export default function Authenticated({ children }: PropsWithChildren) {
         <div className="min-h-screen bg-blue-gray-50/50">
             <SideBar user={auth.user} />
 
-            <div className="space-y-4 p-4 xl:ml-80">
-                <Navbar
-                    className="transition-all duration-300"
-                    fullWidth
-                    color="transparent"
-                    shadow={false}
-                    blurred={false}
-                >
-                    <div className="flex items-center justify-between">
-                        <Breadcrumbs>
-                            <Link href="/">Home</Link>
-                            <Link href="/dashboard">Dashboard</Link>
-                            <Link disabled href="#">
-                                {breadcrumbs}
-                            </Link>
-                        </Breadcrumbs>
-
-                        <div className="hidden xl:ml-6 xl:flex xl:items-center">
-                            <Menu
-                                open={isMenuOpen}
-                                handler={setIsMenuOpen}
-                                placement="bottom-end"
-                            >
-                                <MenuHandler>
-                                    <Button
-                                        variant="text"
-                                        color="blue-gray"
-                                        className="flex items-center gap-2 rounded-full py-0.5 pl-0.5 pr-2 lg:ml-auto"
-                                    >
-                                        <Avatar
-                                            variant="circular"
-                                            size="sm"
-                                            alt={auth.user.name}
-                                            className="border border-blue-500 p-0.5"
-                                            src={auth.user.avatar}
-                                        />
-                                        <div className="flex flex-col items-start justify-start">
-                                            <Typography
-                                                variant="lead"
-                                                className="text-[10px] font-bold"
-                                            >
-                                                {auth.user.name}
-                                            </Typography>
-                                            <Typography
-                                                variant="lead"
-                                                className="text-[10px]"
-                                            >
-                                                {auth.user.roles[0].name}
-                                            </Typography>
-                                        </div>
-                                        <ChevronDownIcon
-                                            strokeWidth={2.5}
-                                            className={`h-3 w-3 transition-transform ${
-                                                isMenuOpen ? "rotate-180" : ""
-                                            }`}
-                                        />
-                                    </Button>
-                                </MenuHandler>
-                                <MenuList className="p-1">
-                                    {profileMenuItems.map(
-                                        ({ label, icon, link }, key) => {
-                                            const isLastItem =
-                                                key ===
-                                                profileMenuItems.length - 1;
-                                            return (
-                                                <Link
-                                                    href={link}
-                                                    key={label}
-                                                    method={
-                                                        isLastItem
-                                                            ? "post"
-                                                            : "get"
-                                                    }
-                                                >
-                                                    <MenuItem
-                                                        onClick={closeMenu}
-                                                        className={`flex items-center gap-2 rounded ${
-                                                            isLastItem
-                                                                ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
-                                                                : ""
-                                                        }`}
-                                                    >
-                                                        {React.createElement(
-                                                            icon,
-                                                            {
-                                                                className: `h-4 w-4 ${
-                                                                    isLastItem
-                                                                        ? "text-red-500"
-                                                                        : ""
-                                                                }`,
-                                                                strokeWidth: 2,
-                                                            },
-                                                        )}
-                                                        <Typography
-                                                            as="span"
-                                                            variant="small"
-                                                            className="font-normal"
-                                                            color={
-                                                                isLastItem
-                                                                    ? "red"
-                                                                    : "inherit"
-                                                            }
-                                                        >
-                                                            {label}
-                                                        </Typography>
-                                                    </MenuItem>
-                                                </Link>
-                                            );
-                                        },
-                                    )}
-                                </MenuList>
-                            </Menu>
-                        </div>
-
-                        <div className="-mr-2 flex items-center xl:hidden">
+            <div className="p-4 xl:ml-80">
+                <div className="mb-8">
+                    <Navbar
+                        className="rounded-xl  shadow-md transition-all duration-300"
+                        fullWidth
+                        shadow={false}
+                        blurred={false}
+                    >
+                        <div className="flex items-center justify-end gap-4">
                             <IconButton
-                                className="text-gray-500 hover:text-gray-600"
+                                className="bg-blue-gray-50/50 text-gray-600 hover:text-gray-600 xl:hidden"
                                 variant="text"
                                 onClick={() =>
                                     setOpenSidenav(dispatch, !openSidenav)
@@ -196,41 +90,179 @@ export default function Authenticated({ children }: PropsWithChildren) {
                                     <Bars3Icon className="h-6 w-6" />
                                 )}
                             </IconButton>
+
+                            <div className=" flex items-center">
+                                {auth.user === null ? (
+                                    <div className="flex items-center gap-4">
+                                        <Link href={route("login")}>
+                                            <Button size="sm" color="blue-gray">
+                                                Login
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                ) : (
+                                    <Menu
+                                        open={isMenuOpen}
+                                        handler={setIsMenuOpen}
+                                        placement="bottom-end"
+                                    >
+                                        <MenuHandler>
+                                            <Button
+                                                variant="text"
+                                                color="blue-gray"
+                                                className="flex items-center gap-2 rounded-full py-0.5 pl-0.5 pr-2 lg:ml-auto"
+                                            >
+                                                <Avatar
+                                                    variant="circular"
+                                                    size="sm"
+                                                    alt={auth.user.name}
+                                                    className="border border-blue-500 p-0.5"
+                                                    src={auth.user.avatar}
+                                                />
+                                                <div className="flex flex-col items-start justify-start">
+                                                    <Typography
+                                                        variant="lead"
+                                                        className="text-[10px] font-bold"
+                                                    >
+                                                        {auth.user.name}
+                                                    </Typography>
+                                                    <Typography
+                                                        variant="lead"
+                                                        className="text-[10px]"
+                                                    >
+                                                        {
+                                                            auth.user.roles[0]
+                                                                .name
+                                                        }
+                                                    </Typography>
+                                                </div>
+                                                <ChevronDownIcon
+                                                    strokeWidth={2.5}
+                                                    className={`h-3 w-3 transition-transform ${
+                                                        isMenuOpen
+                                                            ? "rotate-180"
+                                                            : ""
+                                                    }`}
+                                                />
+                                            </Button>
+                                        </MenuHandler>
+                                        <MenuList className="p-1">
+                                            {profileMenuItems.map(
+                                                (
+                                                    { label, icon, link },
+                                                    key,
+                                                ) => {
+                                                    const isLastItem =
+                                                        key ===
+                                                        profileMenuItems.length -
+                                                            1;
+                                                    return (
+                                                        <Link
+                                                            href={link}
+                                                            key={label}
+                                                            method={
+                                                                isLastItem
+                                                                    ? "post"
+                                                                    : "get"
+                                                            }
+                                                        >
+                                                            <MenuItem
+                                                                onClick={
+                                                                    closeMenu
+                                                                }
+                                                                className={`flex items-center gap-2 rounded ${
+                                                                    isLastItem
+                                                                        ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                                                                        : ""
+                                                                }`}
+                                                            >
+                                                                {React.createElement(
+                                                                    icon,
+                                                                    {
+                                                                        className: `h-4 w-4 ${
+                                                                            isLastItem
+                                                                                ? "text-red-500"
+                                                                                : ""
+                                                                        }`,
+                                                                        strokeWidth: 2,
+                                                                    },
+                                                                )}
+                                                                <Typography
+                                                                    as="span"
+                                                                    variant="small"
+                                                                    className="font-normal"
+                                                                    color={
+                                                                        isLastItem
+                                                                            ? "red"
+                                                                            : "inherit"
+                                                                    }
+                                                                >
+                                                                    {label}
+                                                                </Typography>
+                                                            </MenuItem>
+                                                        </Link>
+                                                    );
+                                                },
+                                            )}
+                                        </MenuList>
+                                    </Menu>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                </Navbar>
+                    </Navbar>
 
-                {/*
-                 * validation error alert
-                 */}
-                {Object.keys(errors).length !== 0 && (
-                    <Alert
-                        open={open}
-                        color="red"
-                        icon={<XCircleIcon className="mt-px h-6 w-6" />}
-                        onClose={() => setOpen(false)}
+                    <Breadcrumbs
+                        color="blue-gray"
+                        className="bg-transparent px-0"
                     >
-                        <Typography className="font-medium">
-                            Validation Error Occurred!
-                        </Typography>
-                        <ul className="ml-2 mt-2 list-inside list-disc">
-                            {Object.keys(errors).map((key) => (
-                                <li key={key}>{errors[key]}</li>
-                            ))}
-                        </ul>
-                    </Alert>
-                )}
+                        <Link href="/">
+                            <IconButton variant="text" color="blue-gray">
+                                <HomeIcon className="h-5 w-5" />
+                            </IconButton>
+                        </Link>
+                        <Link href="#">{breadcrumbs}</Link>
+                    </Breadcrumbs>
 
-                {/*
-                 * flash message alert
-                 */}
-                {flash.status !== null && flash.message !== null && (
-                    <Notification
-                        message={flash.message}
-                        status={flash.status}
-                    />
-                )}
+                    {/*
+                     * validation error alert
+                     */}
+                    {Object.keys(errors).length !== 0 && (
+                        <Alert
+                            open={open}
+                            color="red"
+                            icon={<XCircleIcon className="mt-px h-6 w-6" />}
+                            onClose={() => setOpen(false)}
+                        >
+                            <Typography className="font-medium">
+                                Validation Error Occurred!
+                            </Typography>
+                            <ul className="ml-2 mt-2 list-inside list-disc">
+                                {Object.keys(errors).map((key) => (
+                                    <li key={key}>{errors[key]}</li>
+                                ))}
+                            </ul>
+                        </Alert>
+                    )}
+
+                    {/*
+                     * flash message alert
+                     */}
+                    {flash.status !== null && flash.message !== null && (
+                        <Notification
+                            message={flash.message}
+                            status={flash.status}
+                        />
+                    )}
+                </div>
                 <main>{children}</main>
+                <footer className="mt-8 flex items-center justify-center gap-2 p-4">
+                    <Typography variant="small" color="blue-gray">
+                        &copy; 2022 - 2023
+                    </Typography>
+                    <Typography variant="small" color="blue-gray">
+                        All rights reserved
+                    </Typography>
+                </footer>
             </div>
         </div>
     );

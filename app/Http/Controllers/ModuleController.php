@@ -1,16 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Teacher;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Module;
 use Illuminate\Http\Request;
+use App\Models\Module;
+use Inertia\Inertia;
 
 class ModuleController extends Controller
 {
     public function index()
     {
         return inertia('Teacher/Modules/Index');
+    }
+
+    public function show(Module $module)
+    {
+        return Inertia::render('Module', [
+            'module' => $module
+        ]);
     }
 
     public function store(Request $request)

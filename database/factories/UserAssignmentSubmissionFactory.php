@@ -23,7 +23,6 @@ class UserAssignmentSubmissionFactory extends Factory
             'user_id' => User::factory(),
             'submission_date' => $this->faker->date(),
             'submission_file' => $this->faker->text,
-            'submission_text' => $this->faker->text,
         ];
     }
 }

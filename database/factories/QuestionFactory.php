@@ -18,17 +18,19 @@ class QuestionFactory extends Factory
     public function definition(): array
     {
         $options = [
-            'option1' => $this->faker->text,
-            'option2' => $this->faker->text,
-            'option3' => $this->faker->text,
-            'option4' => $this->faker->text,
+            ['key' => 'A', 'value' => fake()->sentence()],
+            ['key' => 'B', 'value' => fake()->sentence()],
+            ['key' => 'C', 'value' => fake()->sentence()],
+            ['key' => 'D', 'value' => fake()->sentence()],
+            ['key' => 'E', 'value' => fake()->sentence()],
         ];
 
         return [
             'quiz_id' => Quiz::factory(),
-            'question' => $this->faker->text,
+            'question' => $this->faker->realText(100),
             'options' =>  $options,
-            'correct_answer' => $this->faker->numberBetween(1, 4),
+            'correct_answer' => fake()->randomElement(['A', 'B', 'C', 'D', 'E']),
+            'score' => fake()->numberBetween(1, 25),
         ];
     }
 }
