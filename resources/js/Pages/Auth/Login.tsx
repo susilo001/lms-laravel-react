@@ -74,8 +74,8 @@ export default function Login({
                 <div className="mt-4 flex items-center justify-between">
                     <div className="space-x-4">
                         <Link
-                            href={route("register")}
-                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            href={"/register"}
+                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 "
                         >
                             Not registered?
                         </Link>
@@ -83,18 +83,14 @@ export default function Login({
                         {canResetPassword && (
                             <Link
                                 href={route("password.request")}
-                                className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 "
                             >
                                 Forgot your password?
                             </Link>
                         )}
                     </div>
 
-                    <Button
-                        type="submit"
-                        color="blue-gray"
-                        disabled={processing}
-                    >
+                    <Button type="submit" disabled={processing} size="sm">
                         Log in
                     </Button>
                 </div>

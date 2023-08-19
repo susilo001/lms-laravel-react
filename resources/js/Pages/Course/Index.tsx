@@ -11,15 +11,23 @@ import {
     CardHeader,
     Chip,
     IconButton,
-    Input,
+    Tooltip,
     Typography,
 } from "@material-tailwind/react";
 
 import { router } from "@inertiajs/react";
 
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
+import {
+    ArrowLeftIcon,
+    ArrowRightIcon,
+    FunnelIcon,
+    PencilIcon,
+    PlusIcon,
+    TrashIcon,
+} from "@heroicons/react/24/outline";
 
 export default function CoursePage({
+    auth,
     courses,
 }: PageProps<{ courses: Pagination<Course> }>) {
     const prevPageUrl = courses.prev_page_url;
@@ -34,7 +42,19 @@ export default function CoursePage({
     };
 
     const handleOnShow = (slug: string) => {
-        router.get(`/course/${slug}`);
+        router.get(route("course.show", slug));
+    };
+
+    const handleCreate = () => {
+        router.get(route("course.create"));
+    };
+
+    const handleEdit = (slug: string) => {
+        router.get(route("course.edit", slug));
+    };
+
+    const handleDelete = (slug: string) => {
+        router.delete(route("course.destroy", slug));
     };
 
     return (
@@ -42,28 +62,36 @@ export default function CoursePage({
             <Head title="Courses" />
 
             <section className="space-y-10">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between px-2">
                     <div className="flex flex-col">
-                        <Typography variant="h3" color="blue-gray">
-                            All Courses
-                        </Typography>
-                        <Typography variant="h6" color="blue-gray">
+                        <Typography variant="h2">Courses</Typography>
+                        <Typography variant="paragraph">
                             List of all the courses
                         </Typography>
                     </div>
                     <div className="flex items-center gap-4">
-                        <Typography>Filter</Typography>
-                        <div className="p-2">
-                            <Input label="search" className="border-t-0" />
-                        </div>
+                        <Tooltip content="Filter" placement="top">
+                            <IconButton variant="text">
+                                <FunnelIcon className="h-6 w-6" />
+                            </IconButton>
+                        </Tooltip>
+                        {auth.user?.roles[0].name === "teacher" && (
+                            <Tooltip content="Add New Course" placement="top">
+                                <IconButton
+                                    color="green"
+                                    variant="text"
+                                    onClick={handleCreate}
+                                >
+                                    <PlusIcon className="h-6 w-6" />
+                                </IconButton>
+                            </Tooltip>
+                        )}
                     </div>
                 </div>
+
                 <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
                     {courses.data.map((course, index) => (
-                        <Card
-                            key={index}
-                            onClick={() => handleOnShow(course.slug)}
-                        >
+                        <Card key={index}>
                             <CardHeader
                                 color="blue-gray"
                                 className="relative h-52"
@@ -72,8 +100,30 @@ export default function CoursePage({
                                     src={course.image}
                                     className="h-full w-full object-cover"
                                 />
+                                {auth.user?.roles[0].name === "teacher" && (
+                                    <div className="absolute right-0 top-0 z-50">
+                                        <div className="flex gap-2">
+                                            <IconButton
+                                                color="red"
+                                                onClick={() =>
+                                                    handleDelete(course.slug)
+                                                }
+                                            >
+                                                <TrashIcon className="h-6 w-6" />
+                                            </IconButton>
+                                            <IconButton
+                                                color="yellow"
+                                                onClick={() =>
+                                                    handleEdit(course.slug)
+                                                }
+                                            >
+                                                <PencilIcon className="h-6 w-6" />
+                                            </IconButton>
+                                        </div>
+                                    </div>
+                                )}
                             </CardHeader>
-                            <CardBody>
+                            <CardBody onClick={() => handleOnShow(course.slug)}>
                                 <Typography
                                     variant="h5"
                                     color="blue-gray"

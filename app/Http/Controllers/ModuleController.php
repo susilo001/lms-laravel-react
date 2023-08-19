@@ -13,9 +13,21 @@ class ModuleController extends Controller
         return inertia('Teacher/Modules/Index');
     }
 
+    public function create()
+    {
+        return Inertia::render('Module/Create');
+    }
+
     public function show(Module $module)
     {
-        return Inertia::render('Module', [
+        return Inertia::render('Module/Show', [
+            'module' => $module
+        ]);
+    }
+
+    public function edit(Module $module)
+    {
+        return Inertia::render('Module/Edit', [
             'module' => $module
         ]);
     }

@@ -9,6 +9,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserQuizAttemptController;
 use App\Http\Controllers\UserAssignmentSubmissionController;
 
@@ -28,8 +29,10 @@ use App\Http\Controllers\UserAssignmentSubmissionController;
  */
 
 Route::get('/', [HomeController::class, 'index'])->name('dashboard');
-Route::get('/courses', [CourseController::class, 'index'])->name('course.index');
-Route::get('/course/{course:slug}', [CourseController::class, 'show'])->name('course.show');
+
+Route::resource('course', CourseController::class)
+    ->parameter('course', 'course:slug')
+    ->only(['index', 'show']);
 
 Route::get('/module/{module}', [ModuleController::class, 'show'])->name('modules.show');
 Route::get('/quiz/{quiz}', [QuizController::class, 'show'])->name('quiz.show');
@@ -53,22 +56,16 @@ Route::middleware('auth')->group(function () {
      * Teacher Routes
      */
     Route::group(['middleware' => ['role:teacher']], function () {
-        Route::get('/course/{course:slug}/edit', [CourseController::class, 'edit'])->name('course.edit');
-        Route::post('/course', [CourseController::class, 'store'])->name('course.store');
-        Route::patch('/course/{course:slug}', [CourseController::class, 'update'])->name('course.update');
-        Route::delete('/course/{course:slug}', [CourseController::class, 'destroy'])->name('course.destroy');
 
-        Route::post('/module', [ModuleController::class, 'store'])->name('modules.store');
-        Route::patch('/module/{module}', [ModuleController::class, 'update'])->name('modules.update');
-        Route::delete('/module/{module}', [ModuleController::class, 'destroy'])->name('modules.destroy');
+        Route::resource('course', CourseController::class)
+            ->parameter('course', 'course:slug')
+            ->except(['index', 'show']);
 
-        Route::post('/assignment', [AssignmentController::class, 'store'])->name('assignments.store');
-        Route::patch('/assignment/{assignment}', [AssignmentController::class, 'update'])->name('assignments.update');
-        Route::delete('/assignment/{assignment}', [AssignmentController::class, 'destroy'])->name('assignments.destroy');
+        Route::resource('module', ModuleController::class);
 
-        Route::post('/quiz', [QuizController::class, 'store'])->name('quizzes.store');
-        Route::patch('/quiz/{quiz}', [QuizController::class, 'update'])->name('quizzes.update');
-        Route::delete('/quiz/{quiz}', [QuizController::class, 'destroy'])->name('quizzes.destroy');
+        Route::resource('assignment', AssignmentController::class);
+
+        Route::resource('quiz', QuizController::class);
     });
 
     /**

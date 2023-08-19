@@ -18,12 +18,15 @@ class EnrollmentSeeder extends Seeder
         $students = User::role('student')->get();
         $courses = Course::all();
 
-        $students->each(function ($student) use ($courses) {
-            Enrollment::factory()
-                ->count(3)
-                ->for($courses->random())
-                ->for($student)
-                ->create();
-        });
+        foreach ($courses as $course) {
+            $randomStudents = $students->random(3);
+
+            foreach ($randomStudents as $student) {
+                Enrollment::factory()
+                    ->for($course)
+                    ->for($student)
+                    ->create();
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ class CourseSeeder extends Seeder
 
         $teachers->each(function ($teacher) use ($categories) {
             Course::factory()
-                ->count(3)
+                ->count(10)
                 ->for($teacher)
                 ->for($categories->random())
                 ->create();

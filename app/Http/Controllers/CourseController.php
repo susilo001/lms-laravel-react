@@ -7,30 +7,34 @@ use App\Models\Course;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
 
 class CourseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $courses = Course::with(['user', 'category', 'modules'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(8);
+        $user = $request->user();
+
+        if ($user && $user->hasRole('teacher')) {
+            $courses = Course::with(['user', 'category', 'modules'])
+                ->where('user_id', $user->id)
+                ->orderBy('created_at', 'desc')
+                ->paginate(8);
+        } else {
+            $courses = Course::with(['user', 'category', 'modules'])
+                ->orderBy('created_at', 'desc')
+                ->paginate(8);
+        }
 
         return Inertia::render('Course/Index', [
             'courses' => $courses
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreCourseRequest $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'slug' => 'required|unique:courses,slug',
-            'description' => 'required',
-            'category_id' => 'required',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-        ]);
+        $request->validated();
 
         if ($request->hasFile('image')) {
             $image = $request->file('image')->store('images/courses', 'public');
@@ -51,6 +55,13 @@ class CourseController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        return Inertia::render('Course/Create', [
+            'categories' => Category::all(['id', 'name']),
+        ]);
+    }
+
     public function show(Course $course)
     {
         return Inertia::render('Course/Show', [
@@ -60,7 +71,7 @@ class CourseController extends Controller
 
     public function edit(Course $course)
     {
-        return Inertia::render('Teacher/Course/Edit', [
+        return Inertia::render('Course/Edit', [
             'course' => $course->with(['modules', 'assignments', 'quizzes'])->first(),
             'categories' => Category::all(['id', 'name']),
         ]);
@@ -85,9 +96,9 @@ class CourseController extends Controller
             'image' => $imageName,
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Course updated successfully'
+        return redirect()->back()->with([
+            'message' => 'Course updated successfully',
+            'status' => 'Success',
         ]);
     }
 

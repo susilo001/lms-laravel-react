@@ -12,7 +12,7 @@ import {
     XMarkIcon,
 } from "@heroicons/react/24/solid";
 import { Link, usePage } from "@inertiajs/react";
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useState } from "react";
 
 import {
     Alert,
@@ -58,11 +58,25 @@ export default function Authenticated({ children }: PropsWithChildren) {
     const { controller, dispatch } = useNavigationController();
     const { openSidenav } = controller;
 
-    const [open, setOpen] = React.useState(true);
-    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const { errors, flash, breadcrumbs, auth } = usePage<PageProps>().props;
+
+    const [open, setOpen] = useState(true);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     const closeMenu = () => setIsMenuOpen(false);
 
-    const { errors, flash, breadcrumbs, auth } = usePage<PageProps>().props;
+    let currentLink = "";
+    const crumbsLink = breadcrumbs
+        .split("/")
+        .filter((crumb) => crumb !== "")
+        .map((crumb, index) => {
+            currentLink += `/${crumb}`;
+            return (
+                <Link key={index} href={currentLink}>
+                    {crumb}
+                </Link>
+            );
+        });
 
     return (
         <div className="min-h-screen bg-blue-gray-50/50">
@@ -71,7 +85,7 @@ export default function Authenticated({ children }: PropsWithChildren) {
             <div className="p-4 xl:ml-80">
                 <div className="mb-8">
                     <Navbar
-                        className="rounded-xl  shadow-md transition-all duration-300"
+                        className="rounded-xl shadow-md transition-all duration-300"
                         fullWidth
                         shadow={false}
                         blurred={false}
@@ -220,7 +234,7 @@ export default function Authenticated({ children }: PropsWithChildren) {
                                 <HomeIcon className="h-5 w-5" />
                             </IconButton>
                         </Link>
-                        <Link href="#">{breadcrumbs}</Link>
+                        {crumbsLink}
                     </Breadcrumbs>
 
                     {/*

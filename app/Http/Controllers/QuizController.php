@@ -16,38 +16,40 @@ class QuizController extends Controller
 
     public function create()
     {
-        return view('teacher.quiz.create');
+        return Inertia::render('Quiz/Create');
     }
 
     public function store(Request $request)
     {
         Quiz::create($request->all());
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Course created successfully'
+        return redirect()->back()->with([
+            'status' => 'Success',
+            'message' => 'Quiz created successfully'
         ]);
     }
 
     public function show(Quiz $quiz)
     {
-        return Inertia::render('Quiz', [
+        return Inertia::render('Quiz/Show', [
             'quiz' => $quiz->load('questions')
         ]);
     }
 
     public function edit(Course $course)
     {
-        return view('teacher.course.edit', compact('course'));
+        return Inertia::render('Quiz/Edit', [
+            'course' => $course
+        ]);
     }
 
     public function update(Request $request, Quiz $quiz)
     {
         $quiz->update($request->all());
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Course updated successfully'
+        return redirect()->back()->with([
+            'status' => 'Success',
+            'message' => 'Quiz updated successfully'
         ]);
     }
 
@@ -55,9 +57,9 @@ class QuizController extends Controller
     {
         $quiz->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Course deleted successfully'
+        return redirect()->back()->with([
+            'status' => 'Success',
+            'message' => 'Quiz deleted successfully'
         ]);
     }
 }

@@ -1,9 +1,11 @@
 import {
     AcademicCapIcon,
     BookOpenIcon,
+    ClipboardDocumentCheckIcon,
     Cog6ToothIcon,
     HomeIcon,
     PowerIcon,
+    RectangleStackIcon,
     XMarkIcon,
 } from "@heroicons/react/24/solid";
 import {
@@ -23,33 +25,58 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 import { Link } from "@inertiajs/react";
 
-const menuItems = [
-    {
-        label: "Home",
-        icon: HomeIcon,
-        routeName: "/",
-    },
-    {
-        label: "Courses",
-        icon: BookOpenIcon,
-        routeName: "/courses",
-    },
-];
-
-function Menu({
-    label,
-    icon,
-    routeName,
-}: {
-    label: string;
-    icon: any;
-    routeName: string;
-}) {}
-
 export default function SideBar({ user }: { user: User }) {
     const { controller, dispatch } = useNavigationController();
 
     const { openSidenav } = controller;
+
+    const MenuItems = () => {
+        const commonItems = [
+            {
+                label: "Home",
+                icon: HomeIcon,
+                routeName: "/",
+            },
+            {
+                label: "Courses",
+                icon: BookOpenIcon,
+                routeName: "/course",
+            },
+        ];
+
+        if (!user) {
+            return commonItems; // Return default menu items when user is not logged in
+        }
+
+        const userRole = user?.roles[0]?.name;
+
+        const items =
+            userRole === "teacher"
+                ? [
+                      ...commonItems,
+                      {
+                          label: "My Courses",
+                          icon: RectangleStackIcon,
+                          routeName: "/teacher/courses",
+                      },
+                  ]
+                : [
+                      ...commonItems,
+
+                      {
+                          label: "Grades",
+                          icon: AcademicCapIcon,
+                          routeName: "/grades",
+                      },
+                      {
+                          label: "Assignments",
+                          icon: ClipboardDocumentCheckIcon,
+                          routeName: "/assignments",
+                      },
+                  ];
+
+        return items;
+    };
 
     return (
         <aside
@@ -87,7 +114,7 @@ export default function SideBar({ user }: { user: User }) {
                     />
                 </div>
                 <List className="overflow-auto">
-                    {menuItems.map((item, index) => (
+                    {MenuItems().map((item, index) => (
                         <Link href={item.routeName} key={index}>
                             <ListItem>
                                 <ListItemPrefix>
