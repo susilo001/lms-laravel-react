@@ -40,7 +40,7 @@ export default function CreateCourse({
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        post(route("course.store"));
+        post(route("courses.store"));
     };
     return (
         <Authenticated>

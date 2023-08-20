@@ -59,33 +59,33 @@ export default function EditCourse({
         router.delete(route("course.destroy", course.slug));
     };
 
-    const handleCreateModule = () => {
-        router.get(route("module.create"));
+    const handleModuleCreate = (id: number) => {
+        router.get(route("modules.create", { course_id: id }));
     };
     const handleModuleEdit = (id: number) => {
-        router.get(route("module.edit", id));
+        router.get(route("modules.edit", id));
     };
     const handleModuleDelete = (id: number) => {
-        router.delete(route("module.destroy", id));
+        router.delete(route("modules.destroy", id));
     };
 
-    const handleAssignmentCreate = () => {
-        router.get(route("assignment.create"));
+    const handleAssignmentCreate = (course_id: number) => {
+        router.get(route("assignments.create", course_id));
     };
     const handleAssignmentEdit = (id: number) => {
-        router.get(route("assignment.edit", id));
+        router.get(route("assignments.edit", id));
     };
     const handleAssignmentDelete = (id: number) => {
-        router.delete(route("assignment.destroy", id));
+        router.delete(route("assignments.destroy", id));
     };
-    const handleQuizCreate = () => {
-        router.get(route("quiz.create"));
+    const handleQuizCreate = (course_id: number) => {
+        router.get(route("quizzes.create", course_id));
     };
     const handleQuizEdit = (id: number) => {
-        router.get(route("quiz.edit", id));
+        router.get(route("quizzes.edit", id));
     };
     const handleQuizDelete = (id: number) => {
-        router.delete(route("quiz.destroy", id));
+        router.delete(route("quizzes.destroy", id));
     };
 
     return (
@@ -178,14 +178,16 @@ export default function EditCourse({
                 </Card>
 
                 <AddItemCard
+                    id={course.id}
                     title="Module"
                     description="Add a new module to the course"
                     items={course.modules}
-                    handleCreate={handleCreateModule}
+                    handleCreate={handleModuleCreate}
                     handleEdit={handleModuleEdit}
                     handleDelete={handleModuleDelete}
                 />
                 <AddItemCard
+                    id={course.id}
                     title="Assignment"
                     description="Add a new assignment to the course"
                     items={course.assignments}
@@ -194,6 +196,7 @@ export default function EditCourse({
                     handleDelete={handleAssignmentDelete}
                 />
                 <AddItemCard
+                    id={course.id}
                     title="Quiz"
                     description="Add a new quiz to the course"
                     items={course.quizzes}
@@ -207,17 +210,19 @@ export default function EditCourse({
 }
 
 interface AddItemCardProps {
+    id: number;
     title: string;
     description: string;
     items?: Item[];
+    handleCreate: (id: number) => void;
     handleEdit: (id: number) => void;
     handleDelete: (id: number) => void;
-    handleCreate: () => void;
 }
 
 type Item = Module | Assignment | Quiz;
 
 function AddItemCard({
+    id,
     title,
     description,
     items,
@@ -270,7 +275,7 @@ function AddItemCard({
                 color="green"
                 fullWidth
                 variant="outlined"
-                onClick={handleCreate}
+                onClick={() => handleCreate(id)}
                 className="flex items-center justify-center gap-2"
             >
                 {`Add ${title}`}

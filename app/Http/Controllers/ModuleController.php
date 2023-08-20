@@ -13,9 +13,11 @@ class ModuleController extends Controller
         return inertia('Teacher/Modules/Index');
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return Inertia::render('Module/Create');
+        return Inertia::render('Module/Create', [
+            'course_id' => $request->course_id
+        ]);
     }
 
     public function show(Module $module)
@@ -53,7 +55,7 @@ class ModuleController extends Controller
             'order_number' => rand(1, 10),
         ]);
 
-        return redirect()->back()->with([
+        return to_route('course.index')->with([
             'message' => 'Module created successfully',
             'status' => 'Success',
         ]);
@@ -74,17 +76,17 @@ class ModuleController extends Controller
 
         $module->update($request->all() + ['content' => $content]);
 
-        return redirect()->back()->with([
+        return to_route('course.index')->with([
             'message' => 'Module updated successfully',
             'status' => 'Success',
         ]);
     }
 
-    public function destroy(Request $request, Module $module)
+    public function destroy(Module $module)
     {
         $module->delete();
 
-        return redirect()->back()->with([
+        return to_route('course.index')->with([
             'message' => 'Module deleted successfully',
             'status' => 'Success',
         ]);

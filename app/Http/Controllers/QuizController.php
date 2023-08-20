@@ -19,16 +19,6 @@ class QuizController extends Controller
         return Inertia::render('Quiz/Create');
     }
 
-    public function store(Request $request)
-    {
-        Quiz::create($request->all());
-
-        return redirect()->back()->with([
-            'status' => 'Success',
-            'message' => 'Quiz created successfully'
-        ]);
-    }
-
     public function show(Quiz $quiz)
     {
         return Inertia::render('Quiz/Show', [
@@ -43,11 +33,33 @@ class QuizController extends Controller
         ]);
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'course_id' => 'required',
+            'name' => 'required',
+            'total_marks' => 'required',
+        ]);
+
+        $quiz =  Quiz::create($request->all());
+
+        return to_route('courses.edit', $quiz->course->slug)->with([
+            'status' => 'Success',
+            'message' => 'Quiz created successfully'
+        ]);
+    }
+
     public function update(Request $request, Quiz $quiz)
     {
+        $request->validate([
+            'course_id' => 'required',
+            'name' => 'required',
+            'total_marks' => 'required',
+        ]);
+
         $quiz->update($request->all());
 
-        return redirect()->back()->with([
+        return to_route('courses.edit', $quiz->course->slug)->with([
             'status' => 'Success',
             'message' => 'Quiz updated successfully'
         ]);
@@ -57,7 +69,7 @@ class QuizController extends Controller
     {
         $quiz->delete();
 
-        return redirect()->back()->with([
+        return to_route('courses.edit', $quiz->course->slug)->with([
             'status' => 'Success',
             'message' => 'Quiz deleted successfully'
         ]);

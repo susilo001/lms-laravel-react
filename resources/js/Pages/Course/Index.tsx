@@ -46,15 +46,15 @@ export default function CoursePage({
     };
 
     const handleCreate = () => {
-        router.get(route("course.create"));
+        router.get(route("courses.create"));
     };
 
     const handleEdit = (slug: string) => {
-        router.get(route("course.edit", slug));
+        router.get(route("courses.edit", slug));
     };
 
     const handleDelete = (slug: string) => {
-        router.delete(route("course.destroy", slug));
+        router.delete(route("courses.destroy", slug));
     };
 
     return (

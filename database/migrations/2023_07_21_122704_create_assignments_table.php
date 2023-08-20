@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('course_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->text('description');
-            $table->string('max_marks');
+            $table->string('total_marks');
             $table->string('due_date');
             $table->timestamps();
         });

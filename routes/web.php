@@ -8,8 +8,9 @@ use App\Models\UserAssignmentSubmission;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\UserQuizAttemptController;
 use App\Http\Controllers\UserAssignmentSubmissionController;
 
@@ -34,9 +35,6 @@ Route::resource('course', CourseController::class)
     ->parameter('course', 'course:slug')
     ->only(['index', 'show']);
 
-Route::get('/module/{module}', [ModuleController::class, 'show'])->name('modules.show');
-Route::get('/quiz/{quiz}', [QuizController::class, 'show'])->name('quiz.show');
-
 
 /**
  * Authenticated Routes
@@ -46,26 +44,34 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/module/{module}', [ModuleController::class, 'show'])->name('module.show');
+
+    Route::get('/assignment/{assignment}', [AssignmentController::class, 'show'])->name('assignment.show');
+
+    Route::get('/quiz/{quiz}', [QuizController::class, 'show'])->name('quiz.show');
+
     Route::post('/quiz-attempt', [UserQuizAttemptController::class, 'store'])->name('quiz-attempt.store');
 
     Route::get('/assignment/{assignment}', [AssignmentController::class, 'show'])->name('assignment.show');
 
     Route::post('/assignment/{assignment}/submit', [UserAssignmentSubmissionController::class, 'store'])->name('assignment.submit');
 
+    Route::resource('categories', CategoryController::class)->parameter('categories', 'category:slug');
+
     /**
      * Teacher Routes
      */
     Route::group(['middleware' => ['role:teacher']], function () {
 
-        Route::resource('course', CourseController::class)
-            ->parameter('course', 'course:slug')
+        Route::resource('courses', CourseController::class)
+            ->parameter('courses', 'course:slug')
             ->except(['index', 'show']);
 
-        Route::resource('module', ModuleController::class);
+        Route::resource('modules', ModuleController::class)->except(['index', 'show']);
 
-        Route::resource('assignment', AssignmentController::class);
+        Route::resource('assignments', AssignmentController::class)->except(['index', 'show']);
 
-        Route::resource('quiz', QuizController::class);
+        Route::resource('quizzes', QuizController::class)->except(['index', 'show']);
     });
 
     /**

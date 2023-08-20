@@ -65,14 +65,14 @@ class CourseController extends Controller
     public function show(Course $course)
     {
         return Inertia::render('Course/Show', [
-            'course' => $course->with(['modules', 'assignments', 'quizzes', 'category', 'user'])->first(),
+            'course' => $course->load(['modules', 'assignments', 'quizzes', 'category', 'user']),
         ]);
     }
 
     public function edit(Course $course)
     {
         return Inertia::render('Course/Edit', [
-            'course' => $course->with(['modules', 'assignments', 'quizzes'])->first(),
+            'course' => $course->load(['modules', 'assignments', 'quizzes']),
             'categories' => Category::all(['id', 'name']),
         ]);
     }
@@ -96,7 +96,7 @@ class CourseController extends Controller
             'image' => $imageName,
         ]);
 
-        return redirect()->back()->with([
+        return to_route('course.index')->with([
             'message' => 'Course updated successfully',
             'status' => 'Success',
         ]);
