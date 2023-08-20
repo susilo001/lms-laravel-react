@@ -81,11 +81,8 @@ class CourseController extends Controller
     {
         $request->validated();
 
-        if ($request->file('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->extension();
-            $image->move(public_path('images/courses'), $imageName);
-            $course->image = $imageName;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image')->store('images/courses', 'public');
         }
 
         $course->update([
@@ -93,7 +90,7 @@ class CourseController extends Controller
             'slug' => $request->slug,
             'description' => $request->description,
             'category_id' => $request->category_id,
-            'image' => $imageName,
+            'image' => $image,
         ]);
 
         return to_route('course.index')->with([
