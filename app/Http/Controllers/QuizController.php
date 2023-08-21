@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Quiz;
 use App\Models\Course;
+use App\Models\Quiz;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -22,14 +22,14 @@ class QuizController extends Controller
     public function show(Quiz $quiz)
     {
         return Inertia::render('Quiz/Show', [
-            'quiz' => $quiz->load('questions')
+            'quiz' => $quiz->load('questions'),
         ]);
     }
 
     public function edit(Course $course)
     {
         return Inertia::render('Quiz/Edit', [
-            'course' => $course
+            'course' => $course,
         ]);
     }
 
@@ -41,11 +41,11 @@ class QuizController extends Controller
             'total_marks' => 'required',
         ]);
 
-        $quiz =  Quiz::create($request->all());
+        $quiz = Quiz::create($request->all());
 
         return to_route('courses.edit', $quiz->course->slug)->with([
             'status' => 'Success',
-            'message' => 'Quiz created successfully'
+            'message' => 'Quiz created successfully',
         ]);
     }
 
@@ -61,7 +61,7 @@ class QuizController extends Controller
 
         return to_route('courses.edit', $quiz->course->slug)->with([
             'status' => 'Success',
-            'message' => 'Quiz updated successfully'
+            'message' => 'Quiz updated successfully',
         ]);
     }
 
@@ -71,7 +71,7 @@ class QuizController extends Controller
 
         return to_route('courses.edit', $quiz->course->slug)->with([
             'status' => 'Success',
-            'message' => 'Quiz deleted successfully'
+            'message' => 'Quiz deleted successfully',
         ]);
     }
 }

@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Course;
 use App\Models\Assignment;
+use App\Models\Course;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class AssignmentSeeder extends Seeder
 {

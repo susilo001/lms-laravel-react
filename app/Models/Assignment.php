@@ -32,4 +32,9 @@ class Assignment extends Model
     {
         return $this->hasMany(UserAssignmentSubmission::class);
     }
+
+    public function grades()
+    {
+        return $this->morphMany(Grade::class, 'gradeable');
+    }
 }

@@ -7,13 +7,12 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-
     public function index()
     {
         $categories = Category::orderBy('created_at', 'desc')->paginate(8);
 
         return inertia('Category/Index', [
-            'categories' => $categories
+            'categories' => $categories,
         ]);
     }
 
@@ -25,14 +24,14 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         return inertia('Category/Edit', [
-            'category' => $category
+            'category' => $category,
         ]);
     }
 
     public function show(Category $category)
     {
         return inertia('Category/Show', [
-            'category' => $category
+            'category' => $category,
         ]);
     }
 
@@ -40,12 +39,12 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'slug' => 'required|unique:categories,slug'
+            'slug' => 'required|unique:categories,slug',
         ]);
 
         Category::create([
             'name' => $request->name,
-            'slug' => $request->slug
+            'slug' => $request->slug,
         ]);
 
         return to_route('categories.index')->with([
@@ -58,12 +57,12 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'slug' => 'required|unique:categories,slug'
+            'slug' => 'required|unique:categories,slug',
         ]);
 
         $category->update([
             'name' => $request->name,
-            'slug' => $request->slug
+            'slug' => $request->slug,
         ]);
 
         return to_route('categories.index')->with([

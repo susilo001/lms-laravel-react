@@ -28,7 +28,7 @@ class QuestionFactory extends Factory
         return [
             'quiz_id' => Quiz::factory(),
             'question' => $this->faker->realText(100),
-            'options' =>  $options,
+            'options' => $options,
             'correct_answer' => fake()->randomElement(['A', 'B', 'C', 'D', 'E']),
             'score' => fake()->numberBetween(1, 25),
         ];

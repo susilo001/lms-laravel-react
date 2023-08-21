@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Quiz;
 use App\Models\Question;
+use App\Models\Quiz;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class QuestionSeeder extends Seeder
 {

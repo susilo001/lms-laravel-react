@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('course_id')->constrained()->cascadeOnDelete();
-            $table->string('grade_item_id');
+            $table->integer('gradeable_id')->unsigned();
+            $table->string('gradeable_type');
             $table->bigInteger('score');
             $table->date('date');
             $table->timestamps();

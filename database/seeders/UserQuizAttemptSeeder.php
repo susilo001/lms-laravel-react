@@ -6,7 +6,6 @@ use App\Models\Quiz;
 use App\Models\User;
 use App\Models\UserQuizAttempt;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserQuizAttemptSeeder extends Seeder
 {

@@ -3,11 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -70,6 +70,21 @@ class User extends Authenticatable
         return $this->hasMany(UserAssignmentSubmission::class);
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function courseRatings()
+    {
+        return $this->hasMany(CourseRating::class);
+    }
+
+    public function announcements()
+    {
+        return $this->hasMany(Announcement::class);
+    }
+
     public function getStudentCount()
     {
         $students = $this->with('roles')->get()->filter(
@@ -78,6 +93,7 @@ class User extends Authenticatable
 
         return $students;
     }
+
     public function getTeacherCount()
     {
         $teachers = $this->with('roles')->get()->filter(

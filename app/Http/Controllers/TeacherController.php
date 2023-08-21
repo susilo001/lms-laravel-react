@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Course;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TeacherController extends Controller
@@ -16,9 +15,10 @@ class TeacherController extends Controller
             ->withCount('enrollments')
             ->paginate(5);
         $categories = Category::all();
+
         return Inertia::render('Teacher/Course/Index', [
             'courses' => $courses,
-            'categories' => $categories
+            'categories' => $categories,
         ]);
     }
 }

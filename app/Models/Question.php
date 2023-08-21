@@ -16,7 +16,7 @@ class Question extends Model
         'question',
         'options',
         'correct_answer',
-        'score'
+        'score',
     ];
 
     protected $casts = [

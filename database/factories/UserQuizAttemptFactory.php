@@ -22,7 +22,6 @@ class UserQuizAttemptFactory extends Factory
             'user_id' => User::factory(),
             'quiz_id' => Quiz::factory(),
             'attempt_date' => $this->faker->date(),
-            'score' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

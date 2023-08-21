@@ -31,4 +31,9 @@ class Quiz extends Model
     {
         return $this->hasMany(UserQuizAttempt::class);
     }
+
+    public function grades()
+    {
+        return $this->morphMany(Grade::class, 'gradeable');
+    }
 }

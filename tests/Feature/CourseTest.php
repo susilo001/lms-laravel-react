@@ -2,22 +2,23 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\Course;
 use App\Models\Category;
+use App\Models\Course;
+use App\Models\User;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\RolesAndPermissionSeeder;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Tests\TestCase;
 
 class CourseTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $user;
+
     protected $course;
+
     protected $categories;
 
     public function setUp(): void
@@ -42,7 +43,7 @@ class CourseTest extends TestCase
 
     /**
      * Test if the user can view the courses index page
-     * 
+     *
      * @return void
      */
     public function test_user_can_view_courses_index_page()
@@ -56,7 +57,7 @@ class CourseTest extends TestCase
 
     /**
      * Test if the user can view the courses create page
-     * 
+     *
      * @return void
      */
     public function test_user_can_view_courses_create_page()
@@ -70,7 +71,7 @@ class CourseTest extends TestCase
 
     /**
      * Test if the user can view the courses edit page
-     * 
+     *
      * @return void
      */
     public function test_user_can_view_courses_edit_page()
@@ -84,7 +85,7 @@ class CourseTest extends TestCase
 
     /**
      * Test if the user can view the courses show page
-     * 
+     *
      * @return void
      */
     public function test_user_can_view_courses_show_page()
@@ -98,7 +99,7 @@ class CourseTest extends TestCase
 
     /**
      * Test if the user can create a course
-     * 
+     *
      * @return void
      */
     public function test_user_can_create_a_course()
@@ -118,7 +119,7 @@ class CourseTest extends TestCase
 
     /**
      * Test if the user can update a course
-     * 
+     *
      * @return void
      */
     public function test_user_can_update_a_course()
@@ -138,7 +139,7 @@ class CourseTest extends TestCase
 
     /**
      * Test if the user can delete a course
-     * 
+     *
      * @return void
      */
     public function test_user_can_delete_a_course()

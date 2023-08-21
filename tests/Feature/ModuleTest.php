@@ -2,24 +2,24 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Course;
-use App\Models\Category;
 use App\Models\Module;
-use Database\Seeders\CategorySeeder;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\User;
 use Database\Seeders\RolesAndPermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Tests\TestCase;
 
 class ModuleTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $user;
+
     protected $course;
+
     protected $module;
+
     protected $mockFile;
 
     public function setUp(): void
@@ -45,21 +45,21 @@ class ModuleTest extends TestCase
 
     /**
      * Test if the user can view the module show page
-     * 
+     *
      * @return void
      */
     public function test_user_can_view_module_show_page()
     {
         $this->withoutExceptionHandling();
 
-        $response = $this->get(route('module.show',  $this->module->id));
+        $response = $this->get(route('module.show', $this->module->id));
 
         $response->assertStatus(200);
     }
 
     /**
      * Test if the user can view the module create page
-     * 
+     *
      * @return void
      */
     public function test_user_can_view_module_create_page()
@@ -73,7 +73,7 @@ class ModuleTest extends TestCase
 
     /**
      * Test if the user can view the module edit page
-     * 
+     *
      * @return void
      */
     public function test_user_can_view_module_edit_page()
@@ -87,7 +87,7 @@ class ModuleTest extends TestCase
 
     /**
      * Test if the user can create a module
-     * 
+     *
      * @return void
      */
     public function test_user_can_create_a_module()
@@ -112,7 +112,7 @@ class ModuleTest extends TestCase
 
     /**
      * Test if the user can update a module
-     * 
+     *
      * @return void
      */
     public function test_user_can_update_a_module()
@@ -137,7 +137,7 @@ class ModuleTest extends TestCase
 
     /**
      * Test if the user can delete a module
-     * 
+     *
      * @return void
      */
     public function test_user_can_delete_a_module()

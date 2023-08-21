@@ -2,16 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Quiz;
 use App\Models\User;
-use App\Models\Course;
-use App\Models\Category;
-use App\Models\Assignment;
-use App\Models\Enrollment;
-use App\Models\UserQuizAttempt;
 use Illuminate\Database\Seeder;
-use App\Models\UserAssignmentSubmission;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserSeeder extends Seeder
 {
@@ -32,7 +24,6 @@ class UserSeeder extends Seeder
                 'email' => 'teacher@gmail.com',
                 'password' => bcrypt('password'),
             ])->assignRole('teacher');
-
 
         $teachers = User::factory()
             ->count(10)
@@ -59,6 +50,7 @@ class UserSeeder extends Seeder
             $student->assignRole('student');
         });
     }
+
     /**
      * Run the database seeds.
      */

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
 use App\Models\Course;
-use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class HomeController extends Controller
 {
@@ -15,7 +14,7 @@ class HomeController extends Controller
             ->paginate(5);
 
         return Inertia::render('Home', [
-            'latestCourses' => $latestCourses
+            'latestCourses' => $latestCourses,
         ]);
     }
 }

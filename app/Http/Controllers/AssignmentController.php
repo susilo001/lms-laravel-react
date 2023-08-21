@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
-use App\Models\Course;
 use App\Models\Assignment;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AssignmentController extends Controller
 {
@@ -17,7 +16,7 @@ class AssignmentController extends Controller
     public function show(Assignment $assignment)
     {
         return Inertia::render('Assignment/Show', [
-            'assignment' => $assignment
+            'assignment' => $assignment,
         ]);
     }
 
@@ -36,7 +35,7 @@ class AssignmentController extends Controller
             'total_marks' => 'required',
         ]);
 
-        $assignment =  Assignment::create([
+        $assignment = Assignment::create([
             'course_id' => $request->course_id,
             'name' => $request->name,
             'description' => $request->description,

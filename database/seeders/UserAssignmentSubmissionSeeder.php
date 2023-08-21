@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Models\Assignment;
+use App\Models\User;
 use App\Models\UserAssignmentSubmission;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserAssignmentSubmissionSeeder extends Seeder
 {

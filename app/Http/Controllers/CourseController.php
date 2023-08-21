@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
-use App\Models\Course;
-use App\Models\Category;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
+use App\Models\Category;
+use App\Models\Course;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CourseController extends Controller
 {
@@ -28,7 +27,7 @@ class CourseController extends Controller
         }
 
         return Inertia::render('Course/Index', [
-            'courses' => $courses
+            'courses' => $courses,
         ]);
     }
 

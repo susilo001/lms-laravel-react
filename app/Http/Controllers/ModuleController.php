@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Module;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ModuleController extends Controller
@@ -16,21 +16,21 @@ class ModuleController extends Controller
     public function create(Request $request)
     {
         return Inertia::render('Module/Create', [
-            'course_id' => $request->course_id
+            'course_id' => $request->course_id,
         ]);
     }
 
     public function show(Module $module)
     {
         return Inertia::render('Module/Show', [
-            'module' => $module
+            'module' => $module,
         ]);
     }
 
     public function edit(Module $module)
     {
         return Inertia::render('Module/Edit', [
-            'module' => $module
+            'module' => $module,
         ]);
     }
 

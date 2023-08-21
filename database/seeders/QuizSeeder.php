@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Course;
 use App\Models\Quiz;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class QuizSeeder extends Seeder
 {

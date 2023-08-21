@@ -2,11 +2,10 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Category;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
@@ -25,7 +24,7 @@ class CategoryTest extends TestCase
 
     /**
      * Test if the user can view the categories index page
-     * 
+     *
      * @return void
      */
     public function test_user_can_view_categories_index_page()
@@ -39,7 +38,7 @@ class CategoryTest extends TestCase
 
     /**
      * Test if the user can view the categories create page
-     * 
+     *
      * @return void
      */
     public function test_user_can_view_categories_create_page()
@@ -53,7 +52,7 @@ class CategoryTest extends TestCase
 
     /**
      * Test if the user can view the categories edit page
-     * 
+     *
      * @return void
      */
     public function test_user_can_view_categories_edit_page()
@@ -69,7 +68,7 @@ class CategoryTest extends TestCase
 
     /**
      * Test if the user can view the categories show page
-     * 
+     *
      * @return void
      */
     public function test_user_can_view_categories_show_page()
@@ -85,7 +84,7 @@ class CategoryTest extends TestCase
 
     /**
      * Test if the user can create a category
-     * 
+     *
      * @return void
      */
     public function test_user_can_create_a_category()
@@ -109,7 +108,7 @@ class CategoryTest extends TestCase
 
     /**
      * Test if the user can update a category
-     * 
+     *
      * @return void
      */
     public function test_user_can_update_a_category()
@@ -133,7 +132,7 @@ class CategoryTest extends TestCase
 
     /**
      * Test if the user can delete a category
-     * 
+     *
      * @return void
      */
     public function test_user_can_delete_a_category()

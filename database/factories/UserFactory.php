@@ -17,7 +17,7 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $avatar = 'https://picsum.photos/id/' . rand(1, 100) . '/200';
+        $avatar = 'https://picsum.photos/id/'.rand(1, 100).'/200';
 
         return [
             'name' => fake()->name(),

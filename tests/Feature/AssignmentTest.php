@@ -2,22 +2,23 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\Course;
-use App\Models\Module;
 use App\Models\Assignment;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Course;
+use App\Models\User;
 use Database\Seeders\RolesAndPermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class AssignmentTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $user;
+
     protected $course;
+
     protected $module;
+
     protected $assignment;
 
     public function setUp(): void
@@ -41,21 +42,21 @@ class AssignmentTest extends TestCase
 
     /**
      * Test if the user can view the assignment show page
-     * 
+     *
      * @return void
      */
     public function test_user_can_view_assignment_show_page()
     {
         $this->withoutExceptionHandling();
 
-        $response = $this->get(route('assignment.show',  $this->assignment->id));
+        $response = $this->get(route('assignment.show', $this->assignment->id));
 
         $response->assertStatus(200);
     }
 
     /**
      * Test if the user can view the assignment create page
-     * 
+     *
      * @return void
      */
     public function test_user_can_view_assignment_create_page()
@@ -69,7 +70,7 @@ class AssignmentTest extends TestCase
 
     /**
      * Test if the user can view the assignment edit page
-     * 
+     *
      * @return void
      */
     public function test_user_can_view_assignment_edit_page()
@@ -83,7 +84,7 @@ class AssignmentTest extends TestCase
 
     /**
      * Test if the user can create a assignment
-     * 
+     *
      * @return void
      */
     public function test_user_can_create_a_assignment()
@@ -111,7 +112,7 @@ class AssignmentTest extends TestCase
 
     /**
      * Test if the user can update a assignment
-     * 
+     *
      * @return void
      */
     public function test_user_can_update_a_assignment()
@@ -139,7 +140,7 @@ class AssignmentTest extends TestCase
 
     /**
      * Test if the user can delete a assignment
-     * 
+     *
      * @return void
      */
     public function test_user_can_delete_a_assignment()

@@ -53,4 +53,19 @@ class Course extends Model
     {
         return $this->hasMany(Enrollment::class);
     }
+
+    public function ratings()
+    {
+        return $this->hasMany(CourseRating::class);
+    }
+
+    public function announcements()
+    {
+        return $this->hasMany(Announcement::class);
+    }
+
+    public function materials()
+    {
+        return $this->hasManyThrough(Material::class, Module::class);
+    }
 }
