@@ -2,18 +2,18 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Course;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\User;
 use Database\Seeders\RolesAndPermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class RatingTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $student;
+
     protected $course;
 
     protected function setUp(): void
@@ -32,7 +32,7 @@ class RatingTest extends TestCase
 
     /**
      * Test if a student can rate a course.
-     * 
+     *
      * @return void
      */
     public function test_student_can_rate_a_course()

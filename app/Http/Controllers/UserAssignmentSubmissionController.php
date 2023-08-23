@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
+use App\Http\Requests\StoreAssignmentSubmissionRequest;
 use App\Models\Assignment;
-use Illuminate\Http\Request;
 use App\Models\UserAssignmentSubmission;
+use Inertia\Inertia;
 
 class UserAssignmentSubmissionController extends Controller
 {
@@ -16,13 +16,8 @@ class UserAssignmentSubmissionController extends Controller
         ]);
     }
 
-    public function store(Request $request, Assignment $assignment)
+    public function store(StoreAssignmentSubmissionRequest $request, Assignment $assignment)
     {
-        $request->validate([
-            'student_id' => 'required|exists:users,id',
-            'submission_file' => 'required|file|mimes:pdf,doc,docx,zip,rar|max:10000'
-        ]);
-
         if ($request->hasFile('submission_file')) {
             $file = $request->file('submission_file')->store('assignments/submission', 'public');
         }

@@ -2,19 +2,20 @@
 
 namespace Tests\Feature\Admin;
 
-use Tests\TestCase;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
-use Illuminate\Foundation\Testing\WithFaker;
 use Database\Seeders\RolesAndPermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
+use Tests\TestCase;
 
 class UserTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $admin;
+
     protected $students;
+
     protected $teachers;
 
     public function setUp(): void

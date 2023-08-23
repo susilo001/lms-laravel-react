@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreForumRequest;
+use App\Http\Requests\UpdateForumRequest;
 use App\Models\Forum;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ForumController extends Controller
@@ -13,14 +14,14 @@ class ForumController extends Controller
         $forums = Forum::all();
 
         return Inertia::render('Forum/Index', [
-            'forums' => $forums
+            'forums' => $forums,
         ]);
     }
 
     public function show(Forum $forum)
     {
         return Inertia::render('Forum/Show', [
-            'forum' => $forum
+            'forum' => $forum,
         ]);
     }
 
@@ -32,32 +33,20 @@ class ForumController extends Controller
     public function edit(Forum $forum)
     {
         return Inertia::render('Forum/Edit', [
-            'forum' => $forum
+            'forum' => $forum,
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreForumRequest $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'course_id' => 'required',
-        ]);
-
-        Forum::create($request->all());
+        Forum::create($request->validated());
 
         return to_route('forums.index')->with(['status' => 'Success', 'message' => 'Forum created!']);
     }
 
-    public function update(Request $request, Forum $forum)
+    public function update(UpdateForumRequest $request, Forum $forum)
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'course_id' => 'required',
-        ]);
-
-        $forum->update($request->all());
+        $forum->update($request->validated());
 
         return to_route('forums.index')->with(['status' => 'Success', 'message' => 'Forum updated!']);
     }

@@ -2,22 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreRatingRequest;
 use App\Models\Rating;
-use Illuminate\Http\Request;
 
 class RatingController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreRatingRequest $request)
     {
-        $request->validate([
-            'user_id' => 'required',
-            'course_id' => 'required',
-            'rating' => 'required',
-            'review' => 'required',
-            'date' => 'required',
-        ]);
-
-        $rating = Rating::create($request->all());
+        $rating = Rating::create($request->validated());
 
         return to_route('courses.show', $rating->course->slug)->with([
             'status' => 'Info',

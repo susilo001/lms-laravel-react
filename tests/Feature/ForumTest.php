@@ -2,23 +2,26 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\Post;
-use App\Models\User;
-use App\Models\Forum;
 use App\Models\Course;
+use App\Models\Forum;
+use App\Models\Post;
 use App\Models\Thread;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ForumTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $user;
+
     protected $course;
+
     protected $forum;
+
     protected $thread;
+
     protected $post;
 
     public function setUp(): void
@@ -46,7 +49,7 @@ class ForumTest extends TestCase
 
     /**
      * Test if the forum index page loads.
-     * 
+     *
      * @return void
      */
     public function test_forum_index_page_loads()
@@ -58,7 +61,7 @@ class ForumTest extends TestCase
 
     /**
      * Test if the forum show page loads.
-     * 
+     *
      * @return void
      */
     public function test_forum_show_page_loads()
@@ -70,7 +73,7 @@ class ForumTest extends TestCase
 
     /**
      * Test if user can create a forum.
-     * 
+     *
      * @return void
      */
     public function test_user_can_create_a_forum()
@@ -92,7 +95,7 @@ class ForumTest extends TestCase
 
     /**
      * Test if the user can update a forum.
-     * 
+     *
      * @return void
      */
     public function test_user_can_update_a_forum()
@@ -114,7 +117,7 @@ class ForumTest extends TestCase
 
     /**
      * Test if the user can delete a forum.
-     * 
+     *
      * @return void
      */
     public function test_user_can_delete_a_forum()
@@ -130,7 +133,7 @@ class ForumTest extends TestCase
 
     /**
      * Test if the user can create a thread.
-     * 
+     *
      * @return void
      */
     public function test_user_can_create_a_thread()
@@ -153,7 +156,7 @@ class ForumTest extends TestCase
 
     /**
      * Test if the user can update a thread.
-     * 
+     *
      * @return void
      */
     public function test_user_can_update_a_thread()
@@ -173,7 +176,7 @@ class ForumTest extends TestCase
 
     /**
      * Test if the user can delete a thread.
-     * 
+     *
      * @return void
      */
     public function test_user_can_delete_a_thread()
@@ -189,7 +192,7 @@ class ForumTest extends TestCase
 
     /**
      * Test if the user can create a post.
-     * 
+     *
      * @return void
      */
     public function test_user_can_create_a_post()
@@ -211,7 +214,7 @@ class ForumTest extends TestCase
 
     /**
      * Test if the user can update a post.
-     * 
+     *
      * @return void
      */
     public function test_user_can_update_a_post()
@@ -229,7 +232,7 @@ class ForumTest extends TestCase
 
     /**
      * Test if the user can delete a post.
-     * 
+     *
      * @return void
      */
     public function test_user_can_delete_a_post()

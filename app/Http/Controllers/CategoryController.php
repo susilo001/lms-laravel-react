@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -35,17 +36,9 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'slug' => 'required|unique:categories,slug',
-        ]);
-
-        Category::create([
-            'name' => $request->name,
-            'slug' => $request->slug,
-        ]);
+        Category::create($request->validated());
 
         return to_route('categories.index')->with([
             'message' => 'Category created successfully',
@@ -53,17 +46,9 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $request->validate([
-            'name' => 'required',
-            'slug' => 'required|unique:categories,slug',
-        ]);
-
-        $category->update([
-            'name' => $request->name,
-            'slug' => $request->slug,
-        ]);
+        $category->update($request->validated());
 
         return to_route('categories.index')->with([
             'message' => 'Category updated successfully',

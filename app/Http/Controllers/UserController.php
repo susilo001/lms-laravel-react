@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -14,14 +15,14 @@ class UserController extends Controller
         $users = User::all();
 
         return Inertia::render('User/Index', [
-            'users' => $users
+            'users' => $users,
         ]);
     }
 
     public function show(User $user)
     {
         return Inertia::render('User/Show', [
-            'user' => $user
+            'user' => $user,
         ]);
     }
 
@@ -30,14 +31,8 @@ class UserController extends Controller
         return Inertia::render('User/Create');
     }
 
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8',
-        ]);
-
         User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -53,19 +48,12 @@ class UserController extends Controller
 
         return Inertia::render('User/Edit', [
             'user' => $user,
-            'roles' => $roles
+            'roles' => $roles,
         ]);
     }
 
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $request->validate([
-            'name' => 'nullable|string',
-            'email' => 'nullable|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|min:8',
-            'role' => 'nullable|string'
-        ]);
-
         if ($request->name || $request->email) {
             $user->update([
                 'name' => $request->name,

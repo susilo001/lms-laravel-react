@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreModuleRequest;
+use App\Http\Requests\UpdateModuleRequest;
 use App\Models\Module;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -34,15 +36,8 @@ class ModuleController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreModuleRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'course_id' => 'required',
-            'description' => 'required',
-            'content' => 'nullable|file|max:2048',
-        ]);
-
         if ($request->hasFile('content')) {
             $content = $request->file('content')->store('content', 'public');
         }
@@ -61,15 +56,8 @@ class ModuleController extends Controller
         ]);
     }
 
-    public function update(Request $request, Module $module)
+    public function update(UpdateModuleRequest $request, Module $module)
     {
-        $request->validate([
-            'name' => 'nullable',
-            'course_id' => 'nullable',
-            'description' => 'nullable',
-            'content' => 'nullable|file|max:2048',
-        ]);
-
         if ($request->hasFile('content')) {
             $content = $request->file('content')->store('content', 'public');
         }

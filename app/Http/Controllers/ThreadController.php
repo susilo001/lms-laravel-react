@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Forum;
-use App\Models\Post;
+use App\Http\Requests\StoreThreadRequest;
+use App\Http\Requests\UpdateThreadRequest;
 use App\Models\Thread;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ThreadController extends Controller
@@ -17,36 +16,16 @@ class ThreadController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreThreadRequest $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'user_id' => 'required|exists:users,id',
-            'forum_id' => 'required|exists:forums,id',
-        ]);
-
-        $thread = Thread::create([
-            'title' => $request->title,
-            'content' => $request->content,
-            'user_id' => $request->user_id,
-            'forum_id' => $request->forum_id,
-        ]);
+        $thread = Thread::create($request->validated());
 
         return to_route('forums.show', $thread->forum->id)->with(['status' => 'Success', 'message' => 'Thread created!']);
     }
 
-    public function update(Request $request, Thread $thread)
+    public function update(UpdateThreadRequest $request, Thread $thread)
     {
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-        ]);
-
-        $thread->update([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
+        $thread->update($request->validated());
 
         return to_route('forums.show', $thread->forum->id)->with(['status' => 'Success', 'message' => 'Thread updated!']);
     }

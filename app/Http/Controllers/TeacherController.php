@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Course;
 use App\Models\Grade;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class TeacherController extends Controller
 {

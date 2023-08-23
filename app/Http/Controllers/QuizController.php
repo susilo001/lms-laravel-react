@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreQuizRequest;
+use App\Http\Requests\UpdateQuizRequest;
 use App\Models\Course;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
@@ -33,15 +35,9 @@ class QuizController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreQuizRequest $request)
     {
-        $request->validate([
-            'course_id' => 'required',
-            'name' => 'required',
-            'total_marks' => 'required',
-        ]);
-
-        $quiz = Quiz::create($request->all());
+        $quiz = Quiz::create($request->validated());
 
         return to_route('courses.edit', $quiz->course->slug)->with([
             'status' => 'Success',
@@ -49,15 +45,9 @@ class QuizController extends Controller
         ]);
     }
 
-    public function update(Request $request, Quiz $quiz)
+    public function update(UpdateQuizRequest $request, Quiz $quiz)
     {
-        $request->validate([
-            'course_id' => 'required',
-            'name' => 'required',
-            'total_marks' => 'required',
-        ]);
-
-        $quiz->update($request->all());
+        $quiz->update($request->validated());
 
         return to_route('courses.edit', $quiz->course->slug)->with([
             'status' => 'Success',

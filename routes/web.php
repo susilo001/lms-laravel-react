@@ -1,21 +1,21 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\QuizController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ForumController;
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\ModuleController;
-use App\Http\Controllers\RatingController;
-use App\Http\Controllers\ThreadController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TeacherController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AssignmentController;
-use App\Http\Controllers\UserQuizAttemptController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ForumController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QuizController;
+use App\Http\Controllers\RatingController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\UserAssignmentSubmissionController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserQuizAttemptController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,4 +102,4 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

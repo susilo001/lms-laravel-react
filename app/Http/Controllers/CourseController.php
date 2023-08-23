@@ -55,8 +55,6 @@ class CourseController extends Controller
 
     public function store(StoreCourseRequest $request)
     {
-        $request->validated();
-
         if ($request->hasFile('image')) {
             $image = $request->file('image')->store('images/courses', 'public');
         }
@@ -78,8 +76,6 @@ class CourseController extends Controller
 
     public function update(UpdateCourseRequest $request, Course $course)
     {
-        $request->validated();
-
         if ($request->hasFile('image')) {
             $image = $request->file('image')->store('images/courses', 'public');
         }

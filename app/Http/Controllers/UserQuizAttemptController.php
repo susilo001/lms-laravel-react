@@ -2,20 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreQuizAttemptRequest;
 use App\Models\Quiz;
-use Illuminate\Http\Request;
 
 class UserQuizAttemptController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreQuizAttemptRequest $request)
     {
-        $request->validate([
-            'quiz_id' => 'required|exists:quizzes,id',
-            'answer' => 'required|array',
-            'answer.*.question_id' => 'required|exists:questions,id',
-            'answer.*.value' => 'required',
-        ]);
-
         $quiz = Quiz::with(['questions' => function ($query) use ($request) {
             $query->whereIn('id', collect($request->answer)->pluck('question_id'));
         }])->find($request->quiz_id);
