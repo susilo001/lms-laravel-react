@@ -47,7 +47,7 @@ class ModuleController extends Controller
             $content = $request->file('content')->store('content', 'public');
         }
 
-        Module::create([
+        $module = Module::create([
             'name' => $request->name,
             'course_id' => $request->course_id,
             'description' => $request->description,
@@ -55,7 +55,7 @@ class ModuleController extends Controller
             'order_number' => rand(1, 10),
         ]);
 
-        return to_route('course.index')->with([
+        return to_route('courses.edit', $module->course->slug)->with([
             'message' => 'Module created successfully',
             'status' => 'Success',
         ]);
@@ -76,7 +76,7 @@ class ModuleController extends Controller
 
         $module->update($request->all() + ['content' => $content]);
 
-        return to_route('course.index')->with([
+        return to_route('courses.edit', $module->course->slug)->with([
             'message' => 'Module updated successfully',
             'status' => 'Success',
         ]);
@@ -86,7 +86,7 @@ class ModuleController extends Controller
     {
         $module->delete();
 
-        return to_route('course.index')->with([
+        return to_route('courses.edit', $module->course->slug)->with([
             'message' => 'Module deleted successfully',
             'status' => 'Success',
         ]);

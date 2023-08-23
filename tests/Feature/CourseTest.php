@@ -50,7 +50,7 @@ class CourseTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $response = $this->get(route('course.index'));
+        $response = $this->get(route('courses.index'));
 
         $response->assertStatus(200);
     }
@@ -92,7 +92,7 @@ class CourseTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $response = $this->get(route('course.show', $this->course->slug));
+        $response = $this->get(route('courses.show', $this->course->slug));
 
         $response->assertStatus(200);
     }
@@ -114,7 +114,7 @@ class CourseTest extends TestCase
             'image' => UploadedFile::fake()->image('test.jpg'),
         ]);
 
-        $response->assertRedirect(route('course.index'));
+        $response->assertRedirect(route('courses.index'));
     }
 
     /**
@@ -134,7 +134,7 @@ class CourseTest extends TestCase
             'image' => UploadedFile::fake()->image('test.jpg'),
         ]);
 
-        $response->assertRedirect(route('course.index'));
+        $response->assertRedirect(route('courses.index'));
     }
 
     /**
@@ -148,6 +148,6 @@ class CourseTest extends TestCase
 
         $response = $this->delete(route('courses.destroy', $this->course->slug));
 
-        $response->assertRedirect(route('course.index'));
+        $response->assertRedirect(route('courses.index'));
     }
 }

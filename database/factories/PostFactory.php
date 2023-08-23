@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CourseRating>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
  */
-class CourseRatingFactory extends Factory
+class PostFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,9 @@ class CourseRatingFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'content' => $this->faker->paragraph(),
+            'thread_id' => \App\Models\Thread::factory(),
+            'user_id' => \App\Models\User::factory(),
         ];
     }
 }

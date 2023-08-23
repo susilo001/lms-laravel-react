@@ -31,6 +31,28 @@ class CourseController extends Controller
         ]);
     }
 
+    public function show(Course $course)
+    {
+        return Inertia::render('Course/Show', [
+            'course' => $course->load(['modules', 'assignments', 'quizzes', 'category', 'user']),
+        ]);
+    }
+
+    public function create()
+    {
+        return Inertia::render('Course/Create', [
+            'categories' => Category::all(['id', 'name']),
+        ]);
+    }
+
+    public function edit(Course $course)
+    {
+        return Inertia::render('Course/Edit', [
+            'course' => $course->load(['modules', 'assignments', 'quizzes']),
+            'categories' => Category::all(['id', 'name']),
+        ]);
+    }
+
     public function store(StoreCourseRequest $request)
     {
         $request->validated();
@@ -48,31 +70,9 @@ class CourseController extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-        return redirect()->route('course.index')->with([
+        return redirect()->route('courses.index')->with([
             'message' => 'Course created successfully',
             'status' => 'Success',
-        ]);
-    }
-
-    public function create()
-    {
-        return Inertia::render('Course/Create', [
-            'categories' => Category::all(['id', 'name']),
-        ]);
-    }
-
-    public function show(Course $course)
-    {
-        return Inertia::render('Course/Show', [
-            'course' => $course->load(['modules', 'assignments', 'quizzes', 'category', 'user']),
-        ]);
-    }
-
-    public function edit(Course $course)
-    {
-        return Inertia::render('Course/Edit', [
-            'course' => $course->load(['modules', 'assignments', 'quizzes']),
-            'categories' => Category::all(['id', 'name']),
         ]);
     }
 
@@ -92,7 +92,7 @@ class CourseController extends Controller
             'image' => $image,
         ]);
 
-        return to_route('course.index')->with([
+        return to_route('courses.index')->with([
             'message' => 'Course updated successfully',
             'status' => 'Success',
         ]);
@@ -102,7 +102,7 @@ class CourseController extends Controller
     {
         $course->delete();
 
-        return redirect()->route('course.index')->with([
+        return redirect()->route('courses.index')->with([
             'message' => 'Course deleted successfully',
             'status' => 'Success',
         ]);

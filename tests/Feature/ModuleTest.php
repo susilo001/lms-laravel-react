@@ -107,7 +107,7 @@ class ModuleTest extends TestCase
             'course_id' => $this->course->id,
         ]);
 
-        $response->assertRedirect(route('course.index'));
+        $response->assertRedirect(route('courses.edit', $this->course->slug));
     }
 
     /**
@@ -132,7 +132,7 @@ class ModuleTest extends TestCase
             'course_id' => $this->course->id,
         ]);
 
-        $response->assertRedirect(route('course.index'));
+        $response->assertRedirect(route('courses.edit', $this->course->slug));
     }
 
     /**
@@ -152,6 +152,6 @@ class ModuleTest extends TestCase
             'course_id' => $this->course->id,
         ]);
 
-        $response->assertRedirect(route('course.index'));
+        $response->assertRedirect(route('courses.edit', $this->course->slug));
     }
 }

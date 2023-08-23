@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('course_ratings', function (Blueprint $table) {
+        Schema::create('forums', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('course_id')->constrained()->cascadeOnDelete();
-            $table->bigInteger('rating');
-            $table->text('review')->nullable();
-            $table->date('date');
+            $table->string('title');
+            $table->longText('description');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('course_ratings');
+        Schema::dropIfExists('forums');
     }
 };
