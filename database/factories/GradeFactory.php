@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Models\Course;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,15 @@ class GradeFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::factory(),
+            'course_id' => Course::factory(),
+            'gradeable_id' => function (array $attributes) {
+                $type = $attributes['gradable_type'];
+                return $type::factory()->create()->id;
+            },
+            'gradeable_type' => $this->faker->randomElement(['App\Models\Quiz', 'App\Models\Assignment']),
+            'score' => $this->faker->numberBetween(0, 100),
+            'date' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }

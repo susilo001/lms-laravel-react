@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Post;
+use App\Models\Thread;
 use Illuminate\Database\Seeder;
 
 class PostSeeder extends Seeder
@@ -11,6 +13,12 @@ class PostSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $threads = Thread::all();
+
+        foreach ($threads as $thread) {
+            Post::factory()->count(3)->create([
+                'thread_id' => $thread->id,
+            ]);
+        }
     }
 }

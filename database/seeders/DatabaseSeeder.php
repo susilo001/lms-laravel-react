@@ -25,6 +25,10 @@ class DatabaseSeeder extends Seeder
             EnrollmentSeeder::class,
             UserQuizAttemptSeeder::class,
             UserAssignmentSubmissionSeeder::class,
+            GradeSeeder::class,
+            ForumSeeder::class,
+            ThreadSeeder::class,
+            PostSeeder::class,
         ]);
     }
 }

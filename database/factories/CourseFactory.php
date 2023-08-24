@@ -28,7 +28,18 @@ class CourseFactory extends Factory
             'description' => $this->faker->realText(200),
             'user_id' => User::factory(),
             'category_id' => Category::factory(),
-            'image' => 'https://picsum.photos/id/'.rand(1, 1000).'/800/600',
         ];
+    }
+
+    /**
+     * Configure the model factory.
+     */
+    public function configure(): static
+    {
+        return $this->afterCreating(function (\App\Models\Course $course) {
+            $course->addMedia(public_path('images/background/bg_' . rand(1, 8) . '.png'))
+                ->preservingOriginal()
+                ->toMediaCollection('images');
+        });
     }
 }
