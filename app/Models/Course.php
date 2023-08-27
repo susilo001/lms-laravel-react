@@ -69,4 +69,9 @@ class Course extends Model implements HasMedia
     {
         return $this->hasManyThrough(Material::class, Module::class);
     }
+
+    public function grades()
+    {
+        return $this->hasMany(Grade::class);
+    }
 }

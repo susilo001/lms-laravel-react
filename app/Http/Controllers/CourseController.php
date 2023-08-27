@@ -16,14 +16,14 @@ class CourseController extends Controller
         $user = $request->user();
 
         if ($user && $user->hasRole('teacher')) {
-            $courses = Course::with(['user', 'category', 'modules'])
+            $courses = Course::with(['user.media', 'category', 'modules', 'media'])
                 ->where('user_id', $user->id)
                 ->orderBy('created_at', 'desc')
-                ->paginate(8);
+                ->paginate(6);
         } else {
-            $courses = Course::with(['user', 'category', 'modules'])
+            $courses = Course::with(['user.media', 'category', 'modules', 'media'])
                 ->orderBy('created_at', 'desc')
-                ->paginate(8);
+                ->paginate(6);
         }
 
         return Inertia::render('Course/Index', [
@@ -34,7 +34,7 @@ class CourseController extends Controller
     public function show(Course $course)
     {
         return Inertia::render('Course/Show', [
-            'course' => $course->load(['modules', 'assignments', 'quizzes', 'category', 'user']),
+            'course' => $course->load(['modules', 'assignments', 'quizzes', 'category', 'user', 'media']),
         ]);
     }
 
@@ -55,18 +55,17 @@ class CourseController extends Controller
 
     public function store(StoreCourseRequest $request)
     {
-        if ($request->hasFile('image')) {
-            $image = $request->file('image')->store('images/courses', 'public');
-        }
-
-        Course::create([
+        $course = Course::create([
             'title' => $request->title,
             'slug' => $request->slug,
             'description' => $request->description,
             'category_id' => $request->category_id,
-            'image' => $image,
-            'user_id' => auth()->user()->id,
+            'user_id' => $request->user()->id,
         ]);
+
+        if ($request->hasFile('image')) {
+            $course->addMediaFromRequest('image')->toMediaCollection('images');
+        }
 
         return redirect()->route('courses.index')->with([
             'message' => 'Course created successfully',
@@ -77,7 +76,9 @@ class CourseController extends Controller
     public function update(UpdateCourseRequest $request, Course $course)
     {
         if ($request->hasFile('image')) {
-            $image = $request->file('image')->store('images/courses', 'public');
+            $mediaId = $course->getFirstMedia('images')->id;
+            $course->deleteMedia($mediaId);
+            $course->addMediaFromRequest('image')->toMediaCollection('images');
         }
 
         $course->update([
@@ -85,10 +86,9 @@ class CourseController extends Controller
             'slug' => $request->slug,
             'description' => $request->description,
             'category_id' => $request->category_id,
-            'image' => $image,
         ]);
 
-        return to_route('courses.index')->with([
+        return redirect()->route('courses.index')->with([
             'message' => 'Course updated successfully',
             'status' => 'Success',
         ]);

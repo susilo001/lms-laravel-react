@@ -1,31 +1,39 @@
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Course, PageProps } from "@/types";
+import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { Head, Link } from "@inertiajs/react";
 import {
+    Avatar,
     Card,
     CardBody,
+    CardFooter,
     CardHeader,
     Chip,
-    IconButton,
+    Input,
     List,
     ListItem,
+    Tab,
+    TabPanel,
+    Tabs,
+    TabsBody,
+    TabsHeader,
     Typography,
 } from "@material-tailwind/react";
-import { FaFacebook, FaTwitter } from "react-icons/fa6";
+
+import { MdAssignment, MdBook, MdChat, MdQuiz } from "react-icons/md";
 
 export default function ShowCourse({ course }: PageProps<{ course: Course }>) {
-    console.log(course);
     return (
         <Authenticated>
             <Head title={course.title} />
 
             <section className="space-y-10">
                 <div className="grid grid-cols-3 gap-6">
-                    <figure>
+                    <figure className="w-full">
                         <img
-                            src={course.image}
+                            src={course.media?.[0].original_url}
                             alt={course.title}
-                            className="rounded-lg object-cover"
+                            className="rounded-lg object-contain"
                         />
                     </figure>
                     <div className="col-span-2 flex flex-col gap-2">
@@ -46,128 +54,226 @@ export default function ShowCourse({ course }: PageProps<{ course: Course }>) {
                         </Typography>
                     </div>
                 </div>
-                <div className="flex items-center justify-between gap-4 rounded-lg border bg-blue-gray-500 p-4">
-                    <div className="flex items-center gap-2">
-                        <Typography variant="small" color="white">
-                            {course.modules?.length} modules
-                        </Typography>
-                        <Typography variant="small" color="white">
-                            {course.assignments?.length} assignments
-                        </Typography>
-                        <Typography variant="small" color="white">
-                            {course.quizzes?.length} quizzes
-                        </Typography>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        <IconButton color="blue-gray">
-                            <FaFacebook className="h-6 w-6" />
-                        </IconButton>
-                        <IconButton color="blue-gray">
-                            <FaTwitter className="h-6 w-6" />
-                        </IconButton>
-                    </div>
-                </div>
-                <div className="grid grid-cols-3 gap-4">
-                    <div className="col-span-2">
-                        <List className="p-0">
-                            {course.modules
-                                ?.sort(
-                                    (a, b) => a.order_number - b.order_number,
-                                )
-                                .map((module) => (
+                <Tabs value="modules">
+                    <TabsHeader
+                        className=" bg-white bg-opacity-100 p-4"
+                        indicatorProps={{
+                            className:
+                                "bg-transparent border-b-2 border-gray-900 shadow-none rounded-none",
+                        }}
+                    >
+                        <Tab value={"modules"}>
+                            <div className="flex items-center gap-2">
+                                <MdBook className="h-5 w-5" />
+                                {course.modules?.length} Modules
+                            </div>
+                        </Tab>
+                        <Tab value={"assignments"}>
+                            <div className="flex items-center gap-2">
+                                <MdAssignment className="h-5 w-5" />
+                                {course.assignments?.length} Assignments
+                            </div>
+                        </Tab>
+                        <Tab value={"quizzes"}>
+                            <div className="flex items-center gap-2">
+                                <MdQuiz className="h-5 w-5" />
+                                {course.quizzes?.length} Quizzes
+                            </div>
+                        </Tab>
+                        <Tab value={"forums"}>
+                            <div className="flex items-center gap-2">
+                                <MdChat className="h-5 w-5" />
+                                Forum
+                            </div>
+                        </Tab>
+                    </TabsHeader>
+                    <TabsBody>
+                        <TabPanel value={"modules"} className="px-0">
+                            <List className="p-0">
+                                {course.modules
+                                    ?.sort(
+                                        (a, b) =>
+                                            a.order_number - b.order_number,
+                                    )
+                                    .map((module) => (
+                                        <Link
+                                            key={module.id}
+                                            href={"/module/" + module.id}
+                                        >
+                                            <ListItem>
+                                                <Card className="flex-row">
+                                                    <CardHeader
+                                                        shadow={false}
+                                                        floated={false}
+                                                        className="m-2 flex shrink-0 items-center justify-center"
+                                                    >
+                                                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-gray-500 p-2 text-lg text-white">
+                                                            {
+                                                                module.order_number
+                                                            }
+                                                        </div>
+                                                    </CardHeader>
+                                                    <CardBody className="p-4">
+                                                        <Typography
+                                                            variant="h3"
+                                                            color="blue-gray"
+                                                        >
+                                                            {module.name}
+                                                        </Typography>
+                                                        <Typography
+                                                            variant="paragraph"
+                                                            color="blue-gray"
+                                                        >
+                                                            {module.description}
+                                                        </Typography>
+                                                    </CardBody>
+                                                </Card>
+                                            </ListItem>
+                                        </Link>
+                                    ))}
+                            </List>
+                        </TabPanel>
+                        <TabPanel value={"assignments"} className="px-0">
+                            <List className="p-0">
+                                {course.assignments?.map((assignment) => (
                                     <Link
-                                        key={module.id}
-                                        href={"/module/" + module.id}
+                                        href={"/assignment/" + assignment.id}
+                                        key={assignment.id}
                                     >
                                         <ListItem>
                                             <Card className="flex-row">
-                                                <CardHeader
-                                                    shadow={false}
-                                                    floated={false}
-                                                    className="w-1/7 flex shrink-0 items-center justify-center"
-                                                >
-                                                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-gray-500 p-4 text-lg text-white">
-                                                        {module.order_number}
-                                                    </div>
-                                                </CardHeader>
                                                 <CardBody>
                                                     <Typography
                                                         variant="h3"
                                                         color="blue-gray"
                                                     >
-                                                        {module.name}
+                                                        {assignment.name}
                                                     </Typography>
                                                     <Typography
                                                         variant="paragraph"
                                                         color="blue-gray"
                                                     >
-                                                        {module.description}
+                                                        {assignment.description}
                                                     </Typography>
                                                 </CardBody>
                                             </Card>
                                         </ListItem>
                                     </Link>
                                 ))}
-                        </List>
-                    </div>
-                    <div className="space-y-8">
-                        <Card className="rounded-lg">
-                            <CardHeader className="p-2" color="blue-gray">
-                                <Typography variant="h4" color="white">
-                                    Assignments
-                                </Typography>
-                            </CardHeader>
-                            <CardBody className="p-0">
-                                <List className="justify-start">
-                                    {course.assignments?.map((assignment) => (
-                                        <Link
-                                            href={
-                                                "/assignment/" + assignment.id
-                                            }
-                                            key={assignment.id}
-                                        >
-                                            <ListItem>
-                                                <Typography
-                                                    variant="h5"
-                                                    color="blue-gray"
-                                                >
-                                                    {assignment.name}
-                                                </Typography>
-                                            </ListItem>
-                                        </Link>
-                                    ))}
-                                </List>
-                            </CardBody>
-                        </Card>
-                        <Card className="rounded-lg">
-                            <CardHeader className="p-2" color="blue-gray">
-                                <Typography variant="h4" color="white">
-                                    Quizzes
-                                </Typography>
-                            </CardHeader>
-                            <CardBody className="p-0">
-                                <List className="justify-start">
-                                    {course.quizzes?.map((quiz) => (
-                                        <Link
-                                            href={"/quiz/" + quiz.id}
-                                            key={quiz.id}
-                                        >
-                                            <ListItem>
-                                                <Typography
-                                                    variant="h5"
-                                                    color="blue-gray"
-                                                >
-                                                    {quiz.name}
-                                                </Typography>
-                                            </ListItem>
-                                        </Link>
-                                    ))}
-                                </List>
-                            </CardBody>
-                        </Card>
-                    </div>
-                </div>
+                            </List>
+                        </TabPanel>
+                        <TabPanel value={"quizzes"} className="px-0">
+                            <List className="p-0">
+                                {course.quizzes?.map((quiz) => (
+                                    <Link
+                                        href={"/quiz/" + quiz.id}
+                                        key={quiz.id}
+                                    >
+                                        <ListItem>
+                                            <Card className="w-full">
+                                                <CardBody>
+                                                    <Typography
+                                                        variant="h3"
+                                                        color="blue-gray"
+                                                    >
+                                                        {quiz.name}
+                                                    </Typography>
+                                                </CardBody>
+                                            </Card>
+                                        </ListItem>
+                                    </Link>
+                                ))}
+                            </List>
+                        </TabPanel>
+                        <TabPanel value={"forums"} className="px-0">
+                            <Card>
+                                <CardHeader floated={false} shadow={false}>
+                                    <Typography variant="h3" color="blue-gray">
+                                        Thread Title
+                                    </Typography>
+                                </CardHeader>
+                                <CardBody className="bg-gray-200">
+                                    <List className="p-0">
+                                        <ListItem>
+                                            <Card className="w-full">
+                                                <CardBody className="flex gap-4">
+                                                    <Avatar src="https://picsum.photos/200" />
+                                                    <div>
+                                                        <Typography variant="lead">
+                                                            User Name
+                                                        </Typography>
+                                                        <Typography variant="paragraph">
+                                                            Lorem ipsum dolor
+                                                            sit amet consectetur
+                                                            adipisicing elit.
+                                                            Quisquam voluptatum,
+                                                            voluptatibus,
+                                                            quibusdam, quia
+                                                            voluptates quos
+                                                        </Typography>
+                                                    </div>
+                                                </CardBody>
+                                            </Card>
+                                        </ListItem>
+                                        <ListItem>
+                                            <Card className="w-full">
+                                                <CardBody className="flex gap-4">
+                                                    <Avatar src="https://picsum.photos/200" />
+                                                    <div>
+                                                        <Typography variant="lead">
+                                                            User Name
+                                                        </Typography>
+                                                        <Typography variant="paragraph">
+                                                            Lorem ipsum dolor
+                                                            sit amet consectetur
+                                                            adipisicing elit.
+                                                            Quisquam voluptatum,
+                                                            voluptatibus,
+                                                            quibusdam, quia
+                                                            voluptates quos
+                                                        </Typography>
+                                                    </div>
+                                                </CardBody>
+                                            </Card>
+                                        </ListItem>
+                                        <ListItem>
+                                            <Card className="w-full">
+                                                <CardBody className="flex gap-4">
+                                                    <Avatar src="https://picsum.photos/200" />
+                                                    <div>
+                                                        <Typography variant="lead">
+                                                            User Name
+                                                        </Typography>
+                                                        <Typography variant="paragraph">
+                                                            Lorem ipsum dolor
+                                                            sit amet consectetur
+                                                            adipisicing elit.
+                                                            Quisquam voluptatum,
+                                                            voluptatibus,
+                                                            quibusdam, quia
+                                                            voluptates quos
+                                                        </Typography>
+                                                    </div>
+                                                </CardBody>
+                                            </Card>
+                                        </ListItem>
+                                    </List>
+                                </CardBody>
+                                <CardFooter>
+                                    <Input
+                                        id="message"
+                                        crossOrigin=""
+                                        label="Message"
+                                        type="text"
+                                        icon={
+                                            <PaperAirplaneIcon className="h-5 w-5" />
+                                        }
+                                    />
+                                </CardFooter>
+                            </Card>
+                        </TabPanel>
+                    </TabsBody>
+                </Tabs>
             </section>
         </Authenticated>
     );

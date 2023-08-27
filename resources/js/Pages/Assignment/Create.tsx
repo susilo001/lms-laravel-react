@@ -10,16 +10,16 @@ import {
 
 export default function CreateAssignment({ course_id }: { course_id: number }) {
     const { data, setData, errors, post, processing } = useForm({
-        course_id: 0,
+        course_id: course_id,
         name: "",
         description: "",
         due_date: "",
         total_marks: "",
     });
-
+    console.log(course_id);
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        post(route("assignment.store"));
+        post(route("assignments.store"));
     };
     return (
         <Authenticated>
@@ -74,10 +74,7 @@ export default function CreateAssignment({ course_id }: { course_id: number }) {
                             id="due_date"
                             name="due_date"
                             onChange={(e) =>
-                                setData(
-                                    "due_date",
-                                    new Date(e.target.value).toISOString(),
-                                )
+                                setData("due_date", e.target.value)
                             }
                             value={data.due_date}
                             error={errors.due_date ? true : false}

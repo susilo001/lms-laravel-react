@@ -1,6 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Course, PageProps, Pagination } from "@/types";
 import { Head } from "@inertiajs/react";
+import { FaBook } from "react-icons/fa6";
 
 import {
     Avatar,
@@ -34,15 +35,15 @@ export default function CoursePage({
     const nextPageUrl = courses.next_page_url;
 
     const prev = () => {
-        router.replace(prevPageUrl);
+        router.get(prevPageUrl);
     };
 
     const next = () => {
-        router.replace(nextPageUrl);
+        router.get(nextPageUrl);
     };
 
     const handleOnShow = (slug: string) => {
-        router.get(route("course.show", slug));
+        router.get(route("courses.show", slug));
     };
 
     const handleCreate = () => {
@@ -62,106 +63,123 @@ export default function CoursePage({
             <Head title="Courses" />
 
             <section className="space-y-10">
-                <div className="flex items-center justify-between px-2">
-                    <div className="flex flex-col">
-                        <Typography variant="h2">Courses</Typography>
-                        <Typography variant="paragraph">
-                            List of all the courses
-                        </Typography>
-                    </div>
-                    <div className="flex items-center gap-4">
-                        <Tooltip content="Filter" placement="top">
-                            <IconButton variant="text">
-                                <FunnelIcon className="h-6 w-6" />
-                            </IconButton>
-                        </Tooltip>
-                        {auth.user?.roles[0].name === "teacher" && (
-                            <Tooltip content="Add New Course" placement="top">
-                                <IconButton
-                                    color="green"
-                                    variant="text"
-                                    onClick={handleCreate}
-                                >
-                                    <PlusIcon className="h-6 w-6" />
+                <Card>
+                    <div className="flex items-center justify-between p-2">
+                        <div className="flex flex-col">
+                            <Typography variant="h2">Courses</Typography>
+                            <Typography variant="paragraph">
+                                List of all the courses
+                            </Typography>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <Tooltip content="Filter" placement="top">
+                                <IconButton variant="text">
+                                    <FunnelIcon className="h-6 w-6" />
                                 </IconButton>
                             </Tooltip>
-                        )}
+                            {auth.user?.roles[0].name === "teacher" && (
+                                <Tooltip
+                                    content="Add New Course"
+                                    placement="top"
+                                >
+                                    <IconButton
+                                        color="green"
+                                        variant="text"
+                                        onClick={handleCreate}
+                                    >
+                                        <PlusIcon className="h-6 w-6" />
+                                    </IconButton>
+                                </Tooltip>
+                            )}
+                        </div>
                     </div>
-                </div>
+                </Card>
 
                 <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
                     {courses.data.map((course, index) => (
-                        <Card key={index}>
+                        <Card
+                            key={index}
+                            className="flex h-[24rem] flex-col justify-between"
+                        >
                             <CardHeader
                                 color="blue-gray"
                                 className="relative h-52"
+                                onClick={() => handleOnShow(course.slug)}
                             >
                                 <img
-                                    src={course.image}
+                                    src={course.media?.[0].original_url}
                                     className="h-full w-full object-cover"
                                 />
-                                {auth.user?.roles[0].name === "teacher" && (
-                                    <div className="absolute right-0 top-0 z-50">
-                                        <div className="flex gap-2">
-                                            <IconButton
-                                                color="red"
-                                                onClick={() =>
-                                                    handleDelete(course.slug)
-                                                }
-                                            >
-                                                <TrashIcon className="h-6 w-6" />
-                                            </IconButton>
-                                            <IconButton
-                                                color="yellow"
-                                                onClick={() =>
-                                                    handleEdit(course.slug)
-                                                }
-                                            >
-                                                <PencilIcon className="h-6 w-6" />
-                                            </IconButton>
-                                        </div>
-                                    </div>
-                                )}
                             </CardHeader>
                             <CardBody onClick={() => handleOnShow(course.slug)}>
-                                <Typography
-                                    variant="h5"
-                                    color="blue-gray"
-                                    className="mb-2"
-                                >
+                                <Typography variant="h5">
                                     {course.title}
                                 </Typography>
-
-                                <Chip
-                                    icon={
+                            </CardBody>
+                            <CardFooter className="border-t p-4">
+                                <div className="flex items-center justify-between ">
+                                    <Tooltip content={course.user.name}>
                                         <Avatar
-                                            size="xs"
+                                            size="sm"
                                             variant="circular"
                                             className="h-full -translate-x-0.5"
                                             alt={course.user.name}
-                                            src={course.user.avatar}
+                                            src={
+                                                course.user.media?.[0]
+                                                    .original_url
+                                            }
                                         />
-                                    }
-                                    value={
-                                        <Typography
-                                            variant="small"
-                                            color="white"
-                                            className="font-medium capitalize leading-none"
+                                    </Tooltip>
+                                    <div className="flex items-center gap-2">
+                                        <Chip
+                                            value={course.category.name}
+                                            variant="gradient"
+                                        />
+                                        <Tooltip
+                                            content={`${course.modules?.length} Modules`}
                                         >
-                                            {course.user.name}
-                                        </Typography>
-                                    }
-                                    color="blue-gray"
-                                    className="w-fit rounded-full py-1.5"
-                                />
-                            </CardBody>
-                            <CardFooter className="flex items-center justify-between pb-4 pt-0">
-                                <Typography variant="small">
-                                    {course.category.name}
-                                </Typography>
-                                <Typography variant="small" color="blue-gray">
-                                    {course.modules?.length} Modules
-                                </Typography>
+                                            <Chip
+                                                value={course.modules?.length}
+                                                variant="gradient"
+                                                color="green"
+                                                icon={
+                                                    <FaBook className="h-4 w-4" />
+                                                }
+                                            />
+                                        </Tooltip>
+                                        {auth.user?.roles[0].name ===
+                                            "teacher" && (
+                                            <>
+                                                <Tooltip content="Delete">
+                                                    <IconButton
+                                                        color="red"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            handleDelete(
+                                                                course.slug,
+                                                            )
+                                                        }
+                                                    >
+                                                        <TrashIcon className="h-5 w-5" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip content="Edit">
+                                                    <IconButton
+                                                        color="yellow"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            handleEdit(
+                                                                course.slug,
+                                                            )
+                                                        }
+                                                    >
+                                                        <PencilIcon className="h-5 w-5" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
                             </CardFooter>
                         </Card>
                     ))}
@@ -179,7 +197,7 @@ export default function CoursePage({
                         <IconButton
                             key={index}
                             onClick={() =>
-                                router.replace(link.url ? link.url : "#")
+                                router.get(link.url ? link.url : "#")
                             }
                             className={`${
                                 link.active

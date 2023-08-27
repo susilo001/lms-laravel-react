@@ -52,11 +52,14 @@ export default function EditCourse({
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        patch(route("course.update", course.slug));
+        router.post(route("courses.update", course.slug), {
+            _method: "patch",
+            ...data,
+        });
     };
 
     const handleDelete = () => {
-        router.delete(route("course.destroy", course.slug));
+        router.delete(route("courses.destroy", course.slug));
     };
 
     const handleModuleCreate = (id: number) => {

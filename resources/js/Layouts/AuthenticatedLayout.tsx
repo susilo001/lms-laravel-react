@@ -11,7 +11,7 @@ import {
     XCircleIcon,
     XMarkIcon,
 } from "@heroicons/react/24/solid";
-import { Link, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import React, { PropsWithChildren, useState } from "react";
 
 import {
@@ -64,6 +64,20 @@ export default function Authenticated({ children }: PropsWithChildren) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const closeMenu = () => setIsMenuOpen(false);
+    const handleMenuClick = ({
+        link,
+        label,
+    }: {
+        link: string;
+        label: string;
+    }) => {
+        closeMenu();
+        if (label === "Sign Out") {
+            router.post(link);
+            return;
+        }
+        router.get(link);
+    };
 
     let currentLink = "";
     const crumbsLink = breadcrumbs
@@ -83,14 +97,14 @@ export default function Authenticated({ children }: PropsWithChildren) {
             <SideBar user={auth.user} />
 
             <div className="p-4 xl:ml-80">
-                <div className="mb-8">
+                <div className="mb-8 space-y-4">
                     <Navbar
                         className="rounded-xl shadow-md transition-all duration-300"
                         fullWidth
                         shadow={false}
                         blurred={false}
                     >
-                        <div className="flex items-center justify-end gap-4">
+                        <div className={`flex items-center justify-end gap-4`}>
                             <IconButton
                                 className="bg-blue-gray-50/50 text-gray-600 hover:text-gray-600 xl:hidden"
                                 variant="text"
@@ -105,7 +119,7 @@ export default function Authenticated({ children }: PropsWithChildren) {
                                 )}
                             </IconButton>
 
-                            <div className=" flex items-center">
+                            <div className="flex items-center">
                                 {auth.user === null ? (
                                     <div className="flex items-center gap-4">
                                         <Link href={route("login")}>
@@ -131,7 +145,10 @@ export default function Authenticated({ children }: PropsWithChildren) {
                                                     size="sm"
                                                     alt={auth.user.name}
                                                     className="border border-blue-500 p-0.5"
-                                                    src={auth.user.avatar}
+                                                    src={
+                                                        auth.user.media?.[0]
+                                                            .original_url
+                                                    }
                                                 />
                                                 <div className="flex flex-col items-start justify-start">
                                                     <Typography
@@ -171,50 +188,46 @@ export default function Authenticated({ children }: PropsWithChildren) {
                                                         profileMenuItems.length -
                                                             1;
                                                     return (
-                                                        <Link
-                                                            href={link}
+                                                        <MenuItem
                                                             key={label}
-                                                            method={
-                                                                isLastItem
-                                                                    ? "post"
-                                                                    : "get"
-                                                            }
-                                                        >
-                                                            <MenuItem
-                                                                onClick={
-                                                                    closeMenu
-                                                                }
-                                                                className={`flex items-center gap-2 rounded ${
-                                                                    isLastItem
-                                                                        ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
-                                                                        : ""
-                                                                }`}
-                                                            >
-                                                                {React.createElement(
-                                                                    icon,
+                                                            onClick={() =>
+                                                                handleMenuClick(
                                                                     {
-                                                                        className: `h-4 w-4 ${
-                                                                            isLastItem
-                                                                                ? "text-red-500"
-                                                                                : ""
-                                                                        }`,
-                                                                        strokeWidth: 2,
+                                                                        link,
+                                                                        label,
                                                                     },
-                                                                )}
-                                                                <Typography
-                                                                    as="span"
-                                                                    variant="small"
-                                                                    className="font-normal"
-                                                                    color={
+                                                                )
+                                                            }
+                                                            className={`flex items-center gap-2 rounded ${
+                                                                isLastItem
+                                                                    ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                                                                    : ""
+                                                            }`}
+                                                        >
+                                                            {React.createElement(
+                                                                icon,
+                                                                {
+                                                                    className: `h-4 w-4 ${
                                                                         isLastItem
-                                                                            ? "red"
-                                                                            : "inherit"
-                                                                    }
-                                                                >
-                                                                    {label}
-                                                                </Typography>
-                                                            </MenuItem>
-                                                        </Link>
+                                                                            ? "text-red-500"
+                                                                            : ""
+                                                                    }`,
+                                                                    strokeWidth: 2,
+                                                                },
+                                                            )}
+                                                            <Typography
+                                                                as="span"
+                                                                variant="small"
+                                                                className="font-normal"
+                                                                color={
+                                                                    isLastItem
+                                                                        ? "red"
+                                                                        : "inherit"
+                                                                }
+                                                            >
+                                                                {label}
+                                                            </Typography>
+                                                        </MenuItem>
                                                     );
                                                 },
                                             )}

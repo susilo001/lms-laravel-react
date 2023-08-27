@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
+use App\Models\Course;
+use App\Models\Assignment;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreAssignmentRequest;
 use App\Http\Requests\UpdateAssignmentRequest;
-use App\Models\Assignment;
-use Inertia\Inertia;
 
 class AssignmentController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
-        return Inertia::render('Assignment/Create');
+        return Inertia::render('Assignment/Create', ['course_id' => $request->course_id]);
     }
 
     public function show(Assignment $assignment)

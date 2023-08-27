@@ -5,6 +5,7 @@ export interface User {
     email_verified_at: string;
     avatar: string;
     roles: Array<Role>;
+    media?: Media[];
 }
 
 export interface Role {
@@ -33,7 +34,9 @@ export interface Course {
     updated_at: string;
     modules?: Module[];
     assignments?: Assignment[];
+    media?: Media[];
     quizzes?: Quiz[];
+    grades?: Grade[];
     enrollments_count?: number;
 }
 
@@ -82,6 +85,27 @@ export interface Option {
     value: string;
 }
 
+export interface Enrollment {
+    id: number;
+    user_id: number;
+    course_id: number;
+    course: Course;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Grade {
+    id: number;
+    user_id: number;
+    course_id: number;
+    gradeable_id: number;
+    gradeable_type: string;
+    course: Course;
+    score: number;
+    created_at: string;
+    updated_at: string;
+}
+
 export interface Pagination<T> {
     current_page: number;
     data: T[];
@@ -96,6 +120,29 @@ export interface Pagination<T> {
     prev_page_url: string;
     to: number;
     total: number;
+}
+
+export interface Media {
+    id: number;
+    uuid: string;
+    name: string;
+    file_name: string;
+    mime_type: string;
+    size: number;
+    disk: string;
+    collection_name: string;
+    conversions_disk: string;
+    custom_properties: [];
+    generated_conversions: [];
+    manipulations: [];
+    model_id: number;
+    model_type: string;
+    order_column: 1;
+    original_url: string;
+    preview_url: string;
+    responsive_images: [];
+    created_at: string;
+    updated_at: string;
 }
 
 export interface Link {

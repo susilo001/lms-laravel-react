@@ -23,9 +23,11 @@ const Header = ({ children }: PropsWithChildren) => {
 
 const Body = ({
     children,
+    className,
     TABLE_HEAD,
 }: PropsWithChildren<{
     TABLE_HEAD: string[];
+    className?: string;
 }>) => {
     return (
         <CardBody className="overflow-auto px-0">
@@ -37,18 +39,12 @@ const Body = ({
                                 key={head}
                                 className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
                             >
-                                <Typography
-                                    variant="small"
-                                    color="blue-gray"
-                                    className="text-center font-normal leading-none opacity-70"
-                                >
-                                    {head}
-                                </Typography>
+                                <Typography variant="small">{head}</Typography>
                             </th>
                         ))}
                     </tr>
                 </thead>
-                <tbody>{children}</tbody>
+                <tbody className={className}>{children}</tbody>
             </table>
         </CardBody>
     );

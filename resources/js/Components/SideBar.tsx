@@ -5,7 +5,6 @@ import {
     Cog6ToothIcon,
     HomeIcon,
     PowerIcon,
-    RectangleStackIcon,
     XMarkIcon,
 } from "@heroicons/react/24/solid";
 import {
@@ -18,12 +17,13 @@ import {
     ListItemPrefix,
     Typography,
 } from "@material-tailwind/react";
+import { MdQuiz } from "react-icons/md";
 
 import { setOpenSidenav, useNavigationController } from "@/Context";
 import { User } from "@/types";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 
 export default function SideBar({ user }: { user: User }) {
     const { controller, dispatch } = useNavigationController();
@@ -35,47 +35,51 @@ export default function SideBar({ user }: { user: User }) {
             {
                 label: "Home",
                 icon: HomeIcon,
-                routeName: "/",
+                routeName: "dashboard",
             },
             {
                 label: "Courses",
                 icon: BookOpenIcon,
-                routeName: "/course",
+                routeName: "courses.index",
+            },
+            {
+                label: "Grades",
+                icon: AcademicCapIcon,
+                routeName: "grades.index",
+            },
+            {
+                label: "Assignments",
+                icon: ClipboardDocumentCheckIcon,
+                routeName: "courses.index",
+            },
+            {
+                label: "Quiz",
+                icon: MdQuiz,
+                routeName: "courses.index",
             },
         ];
 
-        if (!user) {
-            return commonItems; // Return default menu items when user is not logged in
+        return commonItems;
+    };
+
+    const MenuSettings = [
+        {
+            label: "Profile",
+            icon: Cog6ToothIcon,
+            routeName: "profile.edit",
+        },
+        {
+            label: "Logout",
+            icon: PowerIcon,
+            routeName: "logout",
+        },
+    ];
+
+    const handleMenuClick = (routeName: string) => {
+        if (routeName === "logout") {
+            router.post(route(routeName));
         }
-
-        const userRole = user?.roles[0]?.name;
-
-        const items =
-            userRole === "teacher"
-                ? [
-                      ...commonItems,
-                      {
-                          label: "My Courses",
-                          icon: RectangleStackIcon,
-                          routeName: "/teacher/courses",
-                      },
-                  ]
-                : [
-                      ...commonItems,
-
-                      {
-                          label: "Grades",
-                          icon: AcademicCapIcon,
-                          routeName: "/grades",
-                      },
-                      {
-                          label: "Assignments",
-                          icon: ClipboardDocumentCheckIcon,
-                          routeName: "/assignments",
-                      },
-                  ];
-
-        return items;
+        router.get(route(routeName));
     };
 
     return (
@@ -115,7 +119,7 @@ export default function SideBar({ user }: { user: User }) {
                 </div>
                 <List className="overflow-auto">
                     {MenuItems().map((item, index) => (
-                        <Link href={item.routeName} key={index}>
+                        <Link href={route(item.routeName)} key={index}>
                             <ListItem>
                                 <ListItemPrefix>
                                     <item.icon className="h-5 w-5" />
@@ -137,7 +141,7 @@ export default function SideBar({ user }: { user: User }) {
                             <ListItem className="xl:hidden">
                                 <ListItemPrefix>
                                     <Avatar
-                                        src={user.avatar}
+                                        src={user.media?.[0].original_url}
                                         alt={user.name}
                                         className="h-8 w-8 cursor-pointer transition-opacity duration-300 ease-in-out hover:opacity-80"
                                     />
@@ -158,32 +162,24 @@ export default function SideBar({ user }: { user: User }) {
                                     </Typography>
                                 </div>
                             </ListItem>
-                            <Link href="/profile">
-                                <ListItem>
+                            {MenuSettings.map((item, index) => (
+                                <ListItem
+                                    key={index}
+                                    onClick={() =>
+                                        handleMenuClick(item.routeName)
+                                    }
+                                >
                                     <ListItemPrefix>
-                                        <Cog6ToothIcon className="h-5 w-5" />
+                                        <item.icon className="h-5 w-5" />
                                     </ListItemPrefix>
                                     <Typography
                                         color="blue-gray"
-                                        className="mr-auto"
+                                        className="mr-auto font-normal"
                                     >
-                                        Settings
+                                        {item.label}
                                     </Typography>
                                 </ListItem>
-                            </Link>
-                            <Link href="/logout" method="post" as="button">
-                                <ListItem>
-                                    <ListItemPrefix>
-                                        <PowerIcon className="h-5 w-5" />
-                                    </ListItemPrefix>
-                                    <Typography
-                                        color="blue-gray"
-                                        className="mr-auto"
-                                    >
-                                        Log Out
-                                    </Typography>
-                                </ListItem>
-                            </Link>
+                            ))}
                         </>
                     )}
                 </List>

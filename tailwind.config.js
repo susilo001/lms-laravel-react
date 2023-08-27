@@ -20,6 +20,4 @@ export default WithMT({
             },
         },
     },
-
-    // plugins: [forms, aspecRatio],
 });
