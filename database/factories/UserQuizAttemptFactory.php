@@ -21,7 +21,6 @@ class UserQuizAttemptFactory extends Factory
         return [
             'user_id' => User::factory(),
             'quiz_id' => Quiz::factory(),
-            'attempt_date' => $this->faker->date(),
         ];
     }
 }

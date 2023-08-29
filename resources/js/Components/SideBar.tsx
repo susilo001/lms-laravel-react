@@ -1,12 +1,17 @@
+import { setOpenSidenav, useNavigationController } from "@/Context";
+import { User } from "@/types";
 import {
     AcademicCapIcon,
     BookOpenIcon,
+    ChatBubbleLeftRightIcon,
     ClipboardDocumentCheckIcon,
-    Cog6ToothIcon,
     HomeIcon,
+    MagnifyingGlassIcon,
     PowerIcon,
+    UserCircleIcon,
     XMarkIcon,
 } from "@heroicons/react/24/solid";
+import { Link, router } from "@inertiajs/react";
 import {
     Avatar,
     Card,
@@ -18,12 +23,6 @@ import {
     Typography,
 } from "@material-tailwind/react";
 import { MdQuiz } from "react-icons/md";
-
-import { setOpenSidenav, useNavigationController } from "@/Context";
-import { User } from "@/types";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-
-import { Link, router } from "@inertiajs/react";
 
 export default function SideBar({ user }: { user: User }) {
     const { controller, dispatch } = useNavigationController();
@@ -43,19 +42,24 @@ export default function SideBar({ user }: { user: User }) {
                 routeName: "courses.index",
             },
             {
+                label: "Assignments",
+                icon: ClipboardDocumentCheckIcon,
+                routeName: "assignments.index",
+            },
+            {
+                label: "Quiz",
+                icon: MdQuiz,
+                routeName: "quizzes.index",
+            },
+            {
                 label: "Grades",
                 icon: AcademicCapIcon,
                 routeName: "grades.index",
             },
             {
-                label: "Assignments",
-                icon: ClipboardDocumentCheckIcon,
-                routeName: "courses.index",
-            },
-            {
-                label: "Quiz",
-                icon: MdQuiz,
-                routeName: "courses.index",
+                label: "Forums",
+                icon: ChatBubbleLeftRightIcon,
+                routeName: "forums.index",
             },
         ];
 
@@ -65,7 +69,7 @@ export default function SideBar({ user }: { user: User }) {
     const MenuSettings = [
         {
             label: "Profile",
-            icon: Cog6ToothIcon,
+            icon: UserCircleIcon,
             routeName: "profile.edit",
         },
         {
@@ -113,6 +117,7 @@ export default function SideBar({ user }: { user: User }) {
 
                 <div className="p-2">
                     <Input
+                        crossOrigin=""
                         icon={<MagnifyingGlassIcon className="h-5 w-5" />}
                         label="Search"
                     />
@@ -162,6 +167,7 @@ export default function SideBar({ user }: { user: User }) {
                                     </Typography>
                                 </div>
                             </ListItem>
+
                             {MenuSettings.map((item, index) => (
                                 <ListItem
                                     key={index}

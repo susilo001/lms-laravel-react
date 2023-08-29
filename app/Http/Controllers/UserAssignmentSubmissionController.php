@@ -26,7 +26,6 @@ class UserAssignmentSubmissionController extends Controller
             'assignment_id' => $assignment->id,
             'user_id' => $request->student_id,
             'submission_file' => $file,
-            'submission_date' => now(),
         ]);
 
         return redirect()->back()->with([

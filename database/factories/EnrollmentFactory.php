@@ -21,7 +21,6 @@ class EnrollmentFactory extends Factory
         return [
             'user_id' => User::factory(),
             'course_id' => Course::factory(),
-            'enrollment_date' => $this->faker->date(),
         ];
     }
 }

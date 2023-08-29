@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('gradeable_id')->unsigned();
             $table->string('gradeable_type');
             $table->bigInteger('score');
-            $table->date('date');
             $table->timestamps();
         });
     }

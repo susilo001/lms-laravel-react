@@ -14,8 +14,8 @@ class UserQuizAttemptSeeder extends Seeder
      */
     public function run(): void
     {
-        $quizzes = Quiz::all();
         $students = User::role('student')->get();
+        $quizzes = Quiz::all()->take(20);
 
         $students->each(function ($student) use ($quizzes) {
             $quizzes->each(function ($quiz) use ($student) {

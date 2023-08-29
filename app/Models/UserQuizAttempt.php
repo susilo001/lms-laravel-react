@@ -12,7 +12,6 @@ class UserQuizAttempt extends Model
     protected $fillable = [
         'quiz_id',
         'user_id',
-        'attempt_date',
     ];
 
     public function quiz()

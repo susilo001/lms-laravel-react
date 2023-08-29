@@ -23,7 +23,6 @@ class TeacherController extends Controller
             'gradeable_id' => $request->gradeable_id,
             'gradeable_type' => $request->gradeable_type,
             'score' => $request->score,
-            'date' => now(),
         ]);
 
         return to_route('teacher.grading')->with([

@@ -28,17 +28,15 @@ class UserQuizAttemptController extends Controller
             'gradeable_id' => $quiz->id,
             'gradeable_type' => Quiz::class,
             'score' => $score,
-            'date' => now(),
         ]);
 
         $quiz->attempts()->create([
             'user_id' => $request->user()->id,
-            'attempt_date' => now(),
         ]);
 
         return to_route('quiz.show', $quiz->id)->with([
             'status' => 'Success',
-            'message' => 'Quiz Attempted Successfully'.'your score is '.$quiz->grades->where('user_id', $request->user()->id)->sum('score'),
+            'message' => 'Quiz Attempted Successfully' . 'your score is ' . $quiz->grades->where('user_id', $request->user()->id)->sum('score'),
         ]);
     }
 }

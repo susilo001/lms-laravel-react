@@ -30,13 +30,13 @@ class UserTest extends TestCase
 
         $this->actingAs($this->admin);
 
-        $this->students = User::factory()->count(10)->create();
+        $this->students = User::factory()->count(5)->create();
 
         $this->students->each(function ($student) {
             $student->assignRole('student');
         });
 
-        $this->teachers = User::factory()->count(10)->create();
+        $this->teachers = User::factory()->count(5)->create();
 
         $this->teachers->each(function ($teacher) {
             $teacher->assignRole('teacher');

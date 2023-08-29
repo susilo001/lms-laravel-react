@@ -86,7 +86,7 @@ export default function GradePage({
                         <div className="flex w-full shrink-0 gap-2 md:w-max">
                             <div className="w-full md:w-72">
                                 <Input
-                                    crossOrigin
+                                    crossOrigin=''
                                     label="Search"
                                     icon={
                                         <MagnifyingGlassIcon className="h-5 w-5" />

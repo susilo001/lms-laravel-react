@@ -8,9 +8,24 @@ use App\Models\Assignment;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreAssignmentRequest;
 use App\Http\Requests\UpdateAssignmentRequest;
+use App\Models\Enrollment;
 
 class AssignmentController extends Controller
 {
+    public function index(Request $request)
+    {
+        $userId = $request->user()->id;
+
+        $enrollment = Enrollment::where('user_id', $userId)
+            ->with(['course.assignments.submissions' => function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            }])->paginate(10);
+
+        return Inertia::render('Assignment/Index', [
+            'enrollments' => $enrollment,
+        ]);
+    }
+
     public function create(Request $request)
     {
         return Inertia::render('Assignment/Create', ['course_id' => $request->course_id]);

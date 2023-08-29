@@ -15,7 +15,6 @@ class Grade extends Model
         'gradeable_id',
         'gradeable_type',
         'score',
-        'date',
     ];
 
     public function gradeable()

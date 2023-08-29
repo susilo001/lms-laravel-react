@@ -12,7 +12,7 @@ class ThreadController extends Controller
     public function show(Thread $thread)
     {
         return Inertia::render('Thread/Show', [
-            'thread' => $thread,
+            'thread' => $thread->load(['user.media', 'posts.user.media']),
         ]);
     }
 
@@ -20,20 +20,23 @@ class ThreadController extends Controller
     {
         $thread = Thread::create($request->validated());
 
-        return to_route('forums.show', $thread->forum->id)->with(['status' => 'Success', 'message' => 'Thread created!']);
+        return to_route('forums.show', $thread->forum->id)
+            ->with(['status' => 'Success', 'message' => 'Thread created!']);
     }
 
     public function update(UpdateThreadRequest $request, Thread $thread)
     {
         $thread->update($request->validated());
 
-        return to_route('forums.show', $thread->forum->id)->with(['status' => 'Success', 'message' => 'Thread updated!']);
+        return to_route('forums.show', $thread->forum->id)
+            ->with(['status' => 'Success', 'message' => 'Thread updated!']);
     }
 
     public function destroy(Thread $thread)
     {
         $thread->delete();
 
-        return to_route('forums.show', $thread->forum)->with(['status' => 'Success', 'message' => 'Thread deleted!']);
+        return to_route('forums.show', $thread->forum)
+            ->with(['status' => 'Success', 'message' => 'Thread deleted!']);
     }
 }

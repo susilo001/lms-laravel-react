@@ -16,6 +16,10 @@ class Post extends Model
         'user_id',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:d M Y',
+    ];
+
     public function thread()
     {
         return $this->belongsTo(Thread::class);

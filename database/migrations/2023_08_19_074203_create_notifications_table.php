@@ -17,7 +17,6 @@ return new class extends Migration
             $table->enum('type', ['announcement', 'material']);
             $table->string('content');
             $table->boolean('is_read')->default(false);
-            $table->date('date');
             $table->timestamps();
         });
     }

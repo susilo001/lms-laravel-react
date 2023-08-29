@@ -21,7 +21,6 @@ class UserAssignmentSubmissionFactory extends Factory
         return [
             'assignment_id' => Assignment::factory(),
             'user_id' => User::factory(),
-            'submission_date' => $this->faker->date(),
             'submission_file' => $this->faker->text,
         ];
     }

@@ -27,7 +27,6 @@ class GradeFactory extends Factory
             },
             'gradeable_type' => $this->faker->randomElement(['App\Models\Quiz', 'App\Models\Assignment']),
             'score' => $this->faker->numberBetween(0, 100),
-            'date' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }

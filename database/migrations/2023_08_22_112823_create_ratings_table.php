@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('course_id')->constrained()->cascadeOnDelete();
             $table->bigInteger('rating');
             $table->longText('review')->nullable();
-            $table->date('date');
             $table->timestamps();
         });
     }

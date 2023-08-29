@@ -16,6 +16,10 @@ class Thread extends Model
         'user_id',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:d M Y',
+    ];
+
     public function forum()
     {
         return $this->belongsTo(Forum::class);

@@ -11,7 +11,7 @@ class ForumController extends Controller
 {
     public function index()
     {
-        $forums = Forum::all();
+        $forums = Forum::with(['course'])->withCount(['threads'])->paginate(8);
 
         return Inertia::render('Forum/Index', [
             'forums' => $forums,
@@ -21,7 +21,7 @@ class ForumController extends Controller
     public function show(Forum $forum)
     {
         return Inertia::render('Forum/Show', [
-            'forum' => $forum,
+            'forum' => $forum->load(['course', 'threads.user.media']),
         ]);
     }
 

@@ -2,18 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Quiz;
+use Inertia\Inertia;
+use App\Models\Course;
+use App\Models\Enrollment;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreQuizRequest;
 use App\Http\Requests\UpdateQuizRequest;
-use App\Models\Course;
-use App\Models\Quiz;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class QuizController extends Controller
 {
     public function index(Request $request)
     {
-        return Quiz::where('course_id', $request->course_id)->get();
+        $userId = $request->user()->id;
+
+        $enrollment = Enrollment::where('user_id', $userId)
+            ->with(['course.quizzes.attempts' => function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            }])->paginate(10);
+
+        return Inertia::render('Quiz/Index', [
+            'enrollments' => $enrollment,
+        ]);
     }
 
     public function create()

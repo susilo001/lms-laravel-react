@@ -83,7 +83,7 @@ const Pagination = ({
                         key={index}
                     >
                         <Button
-                            variant={link.active ? "outlined" : "text"}
+                            variant={link.active ? "text" : "outlined"}
                             color="blue-gray"
                             size="sm"
                             className={

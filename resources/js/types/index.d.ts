@@ -58,6 +58,7 @@ export interface Assignment {
     due_date: string;
     total_marks: number;
     course_id: number;
+    submissions?: Submission[];
     created_at: string;
     updated_at: string;
 }
@@ -66,8 +67,9 @@ export interface Quiz {
     id: number;
     name: string;
     total_marks: number;
-    questions?: Question[];
     course_id: number;
+    questions?: Question[];
+    attempts?: Attempt[];
     created_at: string;
     updated_at: string;
 }
@@ -104,6 +106,58 @@ export interface Grade {
     score: number;
     created_at: string;
     updated_at: string;
+}
+
+export interface Submission {
+    id: number;
+    user_id: number;
+    assignment_id: number;
+    submission_file: string;
+}
+
+export interface Attempt {
+    id: number;
+    user_id: number;
+    quiz_id: number;
+}
+
+export interface Forum {
+    id: number;
+    title: string;
+    description: string;
+    user_id: number;
+    course_id: number;
+    created_at: string;
+    updated_at: string;
+    threads?: Thread[];
+    threads_count?: number;
+    user: User;
+    course: Course;
+}
+
+export interface Thread {
+    id: number;
+    title: string;
+    content: string;
+    user_id: number;
+    forum_id: number;
+    created_at: string;
+    updated_at: string;
+    user: User;
+    forum: Forum;
+    posts?: Post[];
+    posts_count?: number;
+}
+
+export interface Post {
+    id: number;
+    content: string;
+    user_id: number;
+    thread_id: number;
+    created_at: string;
+    updated_at: string;
+    user: User;
+    thread: Thread;
 }
 
 export interface Pagination<T> {
