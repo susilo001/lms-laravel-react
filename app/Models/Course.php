@@ -74,4 +74,9 @@ class Course extends Model implements HasMedia
     {
         return $this->hasMany(Grade::class);
     }
+
+    public function forum()
+    {
+        return $this->hasOne(Forum::class);
+    }
 }

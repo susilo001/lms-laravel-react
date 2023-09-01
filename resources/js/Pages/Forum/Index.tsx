@@ -19,8 +19,6 @@ import {
 export default function ForumPage({
     forums,
 }: PageProps<{ forums: Pagination<Forum> }>) {
-    console.log(forums);
-
     const handlePaginationClick = (url: string) => {
         router.get(url);
     };

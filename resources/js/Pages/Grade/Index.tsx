@@ -1,4 +1,9 @@
 import Authenticated from "@/Layouts/AuthenticatedLayout";
+import { Enrollment, Grade, PageProps, Pagination } from "@/types";
+import {
+    ArrowDownTrayIcon,
+    MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
 import { Head, router } from "@inertiajs/react";
 import {
     Button,
@@ -10,31 +15,33 @@ import {
     Typography,
 } from "@material-tailwind/react";
 
-import { Enrollment, Grade, PageProps, Pagination } from "@/types";
-import {
-    ArrowDownTrayIcon,
-    MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
-
 export default function GradePage({
     enrollments,
 }: PageProps<{ enrollments: Pagination<Enrollment> }>) {
     const getQuizTotalScore = (grades: Grade[]) => {
-        return grades.reduce((totalScore, grade) => {
-            if (grade.gradeable_type === "App\\Models\\Quiz") {
-                totalScore += grade.score;
-            }
-            return totalScore;
-        }, 0);
+        const quizGrades = grades.filter(
+            (grade) => grade.gradeable_type === "App\\Models\\Quiz",
+        );
+
+        let totalScore = 0;
+        quizGrades.forEach((grade) => {
+            totalScore += grade.score;
+        });
+
+        return Math.round(totalScore / quizGrades.length);
     };
 
     const getAssignmentTotalScore = (grades: Grade[]) => {
-        return grades.reduce((totalScore, grade) => {
-            if (grade.gradeable_type === "App\\Models\\Assignment") {
-                totalScore += grade.score;
-            }
-            return totalScore;
-        }, 0);
+        const assignmentGrades = grades.filter(
+            (grade) => grade.gradeable_type === "App\\Models\\Assignment",
+        );
+
+        let totalScore = 0;
+        assignmentGrades.forEach((grade) => {
+            totalScore += grade.score;
+        });
+
+        return Math.round(totalScore / assignmentGrades.length);
     };
 
     const getOverallGrade = (quizScore: number, assignmentScore: number) => {
@@ -65,7 +72,7 @@ export default function GradePage({
         <Authenticated>
             <Head title="Grade" />
 
-            <Card>
+            <Card className="h-full w-full">
                 <CardHeader
                     floated={false}
                     shadow={false}
@@ -73,20 +80,14 @@ export default function GradePage({
                 >
                     <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
                         <div>
-                            <Typography variant="h5" color="blue-gray">
-                                Grades List
-                            </Typography>
-                            <Typography
-                                color="gray"
-                                className="mt-1 font-normal"
-                            >
+                            <Typography variant="h5">Grades List</Typography>
+                            <Typography className="mt-1 font-normal">
                                 List of all grades
                             </Typography>
                         </div>
                         <div className="flex w-full shrink-0 gap-2 md:w-max">
                             <div className="w-full md:w-72">
                                 <Input
-                                    crossOrigin=''
                                     label="Search"
                                     icon={
                                         <MagnifyingGlassIcon className="h-5 w-5" />
@@ -107,7 +108,7 @@ export default function GradePage({
                     </div>
                 </CardHeader>
                 <CardBody className="p-0">
-                    <table className="w-full min-w-max table-auto text-left">
+                    <table className="w-full min-w-max table-auto">
                         <thead>
                             <tr>
                                 {TABLE_HEAD.map((head) => (
@@ -115,10 +116,7 @@ export default function GradePage({
                                         key={head}
                                         className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                                     >
-                                        <Typography
-                                            variant="small"
-                                            className="font-normal"
-                                        >
+                                        <Typography variant="small">
                                             {head}
                                         </Typography>
                                     </th>
@@ -129,7 +127,6 @@ export default function GradePage({
                             {enrollments.data.map((enrollment) => {
                                 const course = enrollment.course;
                                 if (!course || !course.grades) {
-                                    // Handle the case where course or grades are undefined
                                     return null;
                                 }
                                 const quizScore = getQuizTotalScore(
@@ -147,36 +144,24 @@ export default function GradePage({
                                         key={enrollment.id}
                                         className="even:bg-blue-gray-50/50"
                                     >
-                                        <td className="p-4">
-                                            <Typography
-                                                variant="small"
-                                                className="font-normal"
-                                            >
+                                        <td className="max-w-sm p-4">
+                                            <Typography variant="small">
                                                 {enrollment.course.title}
                                             </Typography>
                                         </td>
-                                        <td className="p-4">{quizScore}</td>
-                                        <td className="p-4">
-                                            {assignmentScore}
-                                        </td>
-                                        <td className="p-4">
-                                            <Typography
-                                                as="a"
-                                                href="#"
-                                                variant="small"
-                                                className="font-medium"
-                                            >
-                                                {overallGrade}
+                                        <td className="p-4 text-center">
+                                            <Typography variant="small">
+                                                {quizScore}
                                             </Typography>
                                         </td>
-                                        <td className="p-4">
-                                            <Typography
-                                                as="a"
-                                                href="#"
-                                                variant="small"
-                                                className="font-medium"
-                                            >
-                                                Edit
+                                        <td className="p-4 text-center">
+                                            <Typography variant="small">
+                                                {assignmentScore}
+                                            </Typography>
+                                        </td>
+                                        <td className="p-4 text-center">
+                                            <Typography variant="small">
+                                                {overallGrade}
                                             </Typography>
                                         </td>
                                     </tr>
@@ -218,4 +203,4 @@ export default function GradePage({
     );
 }
 
-const TABLE_HEAD = ["Course Name", "Quiz", "Assignment", "Grade", ""];
+const TABLE_HEAD = ["Course Name", "Quiz", "Assignment", "Grade"];

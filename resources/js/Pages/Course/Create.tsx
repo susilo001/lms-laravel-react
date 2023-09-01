@@ -11,6 +11,7 @@ import {
     Typography,
 } from "@material-tailwind/react";
 import { useEffect } from "react";
+
 export default function CreateCourse({
     categories,
 }: {
@@ -78,7 +79,6 @@ export default function CreateCourse({
                                 onChange={(event) =>
                                     setData("title", event.target.value)
                                 }
-                                crossOrigin={""}
                                 error={errors?.title ? true : false}
                             />
                             <Input
@@ -86,7 +86,6 @@ export default function CreateCourse({
                                 label="Slug"
                                 value={data.slug}
                                 disabled
-                                crossOrigin={""}
                                 error={errors?.slug ? true : false}
                             />
                             <Select
@@ -113,7 +112,6 @@ export default function CreateCourse({
                             label="Image"
                             type="file"
                             onChange={handleFileChange}
-                            crossOrigin={""}
                             error={errors?.image ? true : false}
                         />
                         <Textarea

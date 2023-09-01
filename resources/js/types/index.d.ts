@@ -37,6 +37,7 @@ export interface Course {
     media?: Media[];
     quizzes?: Quiz[];
     grades?: Grade[];
+    forum?: Forum;
     enrollments_count?: number;
 }
 

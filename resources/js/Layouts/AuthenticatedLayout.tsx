@@ -1,4 +1,6 @@
+import { Notification } from "@/Components/Notification";
 import SideBar from "@/Components/SideBar";
+import { setOpenSidenav, useNavigationController } from "@/Context";
 import { PageProps } from "@/types";
 import {
     Bars3Icon,
@@ -12,8 +14,6 @@ import {
     XMarkIcon,
 } from "@heroicons/react/24/solid";
 import { Link, router, usePage } from "@inertiajs/react";
-import React, { PropsWithChildren, useState } from "react";
-
 import {
     Alert,
     Avatar,
@@ -27,9 +27,7 @@ import {
     Navbar,
     Typography,
 } from "@material-tailwind/react";
-
-import { Notification } from "@/Components/Notification";
-import { setOpenSidenav, useNavigationController } from "@/Context";
+import React, { PropsWithChildren, useState } from "react";
 
 const profileMenuItems = [
     {

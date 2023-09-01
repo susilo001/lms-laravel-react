@@ -19,7 +19,7 @@ class ModuleFactory extends Factory
     {
         return [
             'course_id' => Course::factory(),
-            'name' => $this->faker->name,
+            'name' => fake()->realText(),
             'description' => $this->faker->realText(200),
             'content' => $this->faker->text,
             'order_number' => $this->faker->numberBetween(1, 10),

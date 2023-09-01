@@ -1,8 +1,15 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Course, PageProps, Pagination } from "@/types";
-import { Head } from "@inertiajs/react";
-import { FaBook } from "react-icons/fa6";
-
+import {
+    ArrowLeftIcon,
+    ArrowRightIcon,
+    BookmarkSquareIcon,
+    FunnelIcon,
+    PencilIcon,
+    PlusIcon,
+    TrashIcon,
+} from "@heroicons/react/24/outline";
+import { Head, router } from "@inertiajs/react";
 import {
     Avatar,
     ButtonGroup,
@@ -15,17 +22,6 @@ import {
     Tooltip,
     Typography,
 } from "@material-tailwind/react";
-
-import { router } from "@inertiajs/react";
-
-import {
-    ArrowLeftIcon,
-    ArrowRightIcon,
-    FunnelIcon,
-    PencilIcon,
-    PlusIcon,
-    TrashIcon,
-} from "@heroicons/react/24/outline";
 
 export default function CoursePage({
     auth,
@@ -143,7 +139,7 @@ export default function CoursePage({
                                                 variant="gradient"
                                                 color="green"
                                                 icon={
-                                                    <FaBook className="h-4 w-4" />
+                                                    <BookmarkSquareIcon className="h-4 w-4" />
                                                 }
                                             />
                                         </Tooltip>

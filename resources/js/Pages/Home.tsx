@@ -1,7 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-
+import { PageProps } from "@/types";
+import { UserGroupIcon } from "@heroicons/react/24/solid";
 import { Head } from "@inertiajs/react";
-
 import {
     Card,
     CardBody,
@@ -10,12 +10,7 @@ import {
     Typography,
 } from "@material-tailwind/react";
 
-import { Course, PageProps, Pagination } from "@/types";
-import { FaUsers } from "react-icons/fa6";
-
-export default function Home({
-    latestCourses,
-}: PageProps<{ latestCourses: Pagination<Course> }>) {
+export default function Home({}: PageProps) {
     return (
         <AuthenticatedLayout>
             <Head title="Home" />
@@ -27,7 +22,7 @@ export default function Home({
                             variant="gradient"
                             className="absolute -mt-4 grid h-16 w-16 place-items-center"
                         >
-                            <FaUsers className="h-10 w-10" />
+                            <UserGroupIcon className="h-10 w-10" />
                         </CardHeader>
                         <CardBody className="p-4 text-right">
                             <Typography variant="small" color="blue-gray">
@@ -53,7 +48,7 @@ export default function Home({
                             variant="gradient"
                             className="absolute -mt-4 grid h-16 w-16 place-items-center"
                         >
-                            <FaUsers className="h-10 w-10" />
+                            <UserGroupIcon className="h-10 w-10" />
                         </CardHeader>
                         <CardBody className="p-4 text-right">
                             <Typography variant="small" color="blue-gray">
@@ -79,7 +74,7 @@ export default function Home({
                             variant="gradient"
                             className="absolute -mt-4 grid h-16 w-16 place-items-center"
                         >
-                            <FaUsers className="h-10 w-10" />
+                            <UserGroupIcon className="h-10 w-10" />
                         </CardHeader>
                         <CardBody className="p-4 text-right">
                             <Typography variant="small" color="blue-gray">

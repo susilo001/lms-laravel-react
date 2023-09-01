@@ -3,9 +3,6 @@ import laravel from "laravel-vite-plugin";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-    define: {
-        global: {},
-    },
     plugins: [
         laravel({
             input: "resources/js/app.tsx",

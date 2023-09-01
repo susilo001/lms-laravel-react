@@ -1,4 +1,10 @@
 import Authenticated from "@/Layouts/AuthenticatedLayout";
+import { Enrollment, PageProps, Pagination } from "@/types";
+import {
+    CheckCircleIcon,
+    MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
+import { XCircleIcon } from "@heroicons/react/24/solid";
 import { Head, Link, router } from "@inertiajs/react";
 import {
     Button,
@@ -6,20 +12,14 @@ import {
     CardBody,
     CardFooter,
     CardHeader,
+    Chip,
     Input,
     Typography,
 } from "@material-tailwind/react";
 
-import { Enrollment, PageProps, Pagination } from "@/types";
-import {
-    CheckCircleIcon,
-    MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
-
 export default function AssignmentPage({
     enrollments,
 }: PageProps<{ enrollments: Pagination<Enrollment> }>) {
-    console.log(enrollments.data);
     const handleNextPage = () => {
         router.get(enrollments.next_page_url);
     };
@@ -31,7 +31,7 @@ export default function AssignmentPage({
         <Authenticated>
             <Head title="Assignment" />
 
-            <Card>
+            <Card className="h-full w-full">
                 <CardHeader
                     floated={false}
                     shadow={false}
@@ -52,7 +52,6 @@ export default function AssignmentPage({
                         <div className="flex w-full shrink-0 gap-2 md:w-max">
                             <div className="w-full md:w-72">
                                 <Input
-                                    crossOrigin=""
                                     label="Search"
                                     icon={
                                         <MagnifyingGlassIcon className="h-5 w-5" />
@@ -63,7 +62,7 @@ export default function AssignmentPage({
                     </div>
                 </CardHeader>
                 <CardBody className="p-0">
-                    <table className="w-full min-w-max table-auto text-left">
+                    <table className="w-full min-w-max table-auto">
                         <thead>
                             <tr>
                                 {TABLE_HEAD.map((head) => (
@@ -71,10 +70,7 @@ export default function AssignmentPage({
                                         key={head}
                                         className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                                     >
-                                        <Typography
-                                            variant="small"
-                                            className="font-normal"
-                                        >
+                                        <Typography variant="small">
                                             {head}
                                         </Typography>
                                     </th>
@@ -90,31 +86,40 @@ export default function AssignmentPage({
                                                 key={assignment.id}
                                                 className="even:bg-blue-gray-50/50"
                                             >
-                                                <td className="p-4">
-                                                    <Typography
-                                                        variant="small"
-                                                        className="font-normal"
-                                                    >
+                                                <td className="max-w-sm p-4">
+                                                    <Typography variant="small">
                                                         {assignment.name}
                                                     </Typography>
                                                 </td>
-                                                <td className="p-4">
-                                                    {assignment.due_date}
+                                                <td className="p-4 text-center">
+                                                    <Typography
+                                                        variant="small"
+                                                        color="red"
+                                                    >
+                                                        {assignment.due_date}
+                                                    </Typography>
                                                 </td>
                                                 <td className="p-4">
                                                     {assignment.submissions
                                                         ?.length ? (
-                                                        <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                                                        <Chip
+                                                            color="green"
+                                                            value="Completed"
+                                                            icon={
+                                                                <CheckCircleIcon className="h-5 w-5" />
+                                                            }
+                                                        />
                                                     ) : (
-                                                        <Typography
-                                                            variant="small"
-                                                            className="font-normal"
-                                                        >
-                                                            Not submitted yet
-                                                        </Typography>
+                                                        <Chip
+                                                            value="Not submitted yet"
+                                                            color="red"
+                                                            icon={
+                                                                <XCircleIcon className="h-5 w-5" />
+                                                            }
+                                                        />
                                                     )}
                                                 </td>
-                                                <td className="p-4">
+                                                <td className="p-4 text-center">
                                                     {assignment.submissions
                                                         ?.length ? (
                                                         <Link
@@ -123,7 +128,11 @@ export default function AssignmentPage({
                                                                 assignment.id,
                                                             )}
                                                         >
-                                                            <Button size="sm">
+                                                            <Button
+                                                                size="sm"
+                                                                color="blue"
+                                                                variant="gradient"
+                                                            >
                                                                 View
                                                             </Button>
                                                         </Link>
@@ -134,7 +143,11 @@ export default function AssignmentPage({
                                                                 assignment.id,
                                                             )}
                                                         >
-                                                            <Button size="sm">
+                                                            <Button
+                                                                size="sm"
+                                                                variant="gradient"
+                                                                color="green"
+                                                            >
                                                                 Submit
                                                             </Button>
                                                         </Link>

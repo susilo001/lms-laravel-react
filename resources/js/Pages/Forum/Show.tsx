@@ -167,7 +167,6 @@ export default function ForumShow({
                                     setData("title", e.target.value)
                                 }
                                 error={errors?.title ? true : false}
-                                crossOrigin={""}
                             />
                             <Textarea
                                 id="content"

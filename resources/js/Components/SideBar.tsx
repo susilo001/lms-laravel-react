@@ -5,6 +5,7 @@ import {
     BookOpenIcon,
     ChatBubbleLeftRightIcon,
     ClipboardDocumentCheckIcon,
+    ClipboardDocumentListIcon,
     HomeIcon,
     MagnifyingGlassIcon,
     PowerIcon,
@@ -22,7 +23,6 @@ import {
     ListItemPrefix,
     Typography,
 } from "@material-tailwind/react";
-import { MdQuiz } from "react-icons/md";
 
 export default function SideBar({ user }: { user: User }) {
     const { controller, dispatch } = useNavigationController();
@@ -48,7 +48,7 @@ export default function SideBar({ user }: { user: User }) {
             },
             {
                 label: "Quiz",
-                icon: MdQuiz,
+                icon: ClipboardDocumentListIcon,
                 routeName: "quizzes.index",
             },
             {
@@ -117,7 +117,6 @@ export default function SideBar({ user }: { user: User }) {
 
                 <div className="p-2">
                     <Input
-                        crossOrigin=""
                         icon={<MagnifyingGlassIcon className="h-5 w-5" />}
                         label="Search"
                     />

@@ -12,20 +12,23 @@ class PostController extends Controller
     {
         $post = Post::create($request->validated());
 
-        return to_route('threads.show', $post->thread->id)->with(['status' => 'Success', 'message' => 'Post created!']);
+        return to_route('threads.show', $post->thread->id)
+            ->with(['status' => 'Success', 'message' => 'Post created!']);
     }
 
     public function update(UpdatePostRequest $request, Post $post)
     {
         $post->update($request->validated());
 
-        return to_route('threads.show', $post->thread->id)->with(['status' => 'Success', 'message' => 'Post updated!']);
+        return to_route('threads.show', $post->thread->id)
+            ->with(['status' => 'Success', 'message' => 'Post updated!']);
     }
 
     public function destroy(Post $post)
     {
         $post->delete();
 
-        return to_route('threads.show', $post->thread->id)->with(['status' => 'Success', 'message' => 'Post deleted!']);
+        return to_route('threads.show', $post->thread->id)
+            ->with(['status' => 'Success', 'message' => 'Post deleted!']);
     }
 }

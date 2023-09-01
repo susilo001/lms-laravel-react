@@ -43,7 +43,7 @@ export default function ShowQuiz({ quiz }: PageProps<{ quiz: Quiz }>) {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        post(route("quiz-attempt.store"));
+        post(route("quiz.attempt", quiz.id));
     };
 
     return (

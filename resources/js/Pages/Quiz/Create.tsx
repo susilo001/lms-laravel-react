@@ -8,6 +8,7 @@ import {
     Input,
     Typography,
 } from "@material-tailwind/react";
+
 export default function CreateQuizPage() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
