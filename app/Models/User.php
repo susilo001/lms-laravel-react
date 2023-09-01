@@ -92,6 +92,11 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Announcement::class);
     }
 
+    public function grades()
+    {
+        return $this->hasMany(Grade::class);
+    }
+
     public function getStudentCount()
     {
         $students = $this->with('roles')->get()->filter(

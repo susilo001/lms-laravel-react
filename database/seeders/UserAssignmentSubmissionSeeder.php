@@ -15,7 +15,7 @@ class UserAssignmentSubmissionSeeder extends Seeder
     public function run(): void
     {
         $students = User::role('student')->get();
-        $assignments = Assignment::all()->take(20);
+        $assignments = Assignment::all();
 
         $students->each(function ($student) use ($assignments) {
             $assignments->each(function ($assignment) use ($student) {

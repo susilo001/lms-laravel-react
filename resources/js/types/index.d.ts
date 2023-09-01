@@ -59,6 +59,7 @@ export interface Assignment {
     due_date: string;
     total_marks: number;
     course_id: number;
+    grades?: Grade[];
     submissions?: Submission[];
     created_at: string;
     updated_at: string;
@@ -114,6 +115,9 @@ export interface Submission {
     user_id: number;
     assignment_id: number;
     submission_file: string;
+    user: User;
+    created_at: string;
+    updated_at: string;
 }
 
 export interface Attempt {

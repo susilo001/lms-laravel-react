@@ -4,15 +4,32 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAssignmentSubmissionRequest;
 use App\Models\Assignment;
+use App\Models\Course;
 use App\Models\UserAssignmentSubmission;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class UserAssignmentSubmissionController extends Controller
 {
+
+    public function index(Request $request)
+    {
+        $teacher = $request->user();
+
+        $courses = Course::where('user_id', $teacher->id)
+            ->with(['assignments.grades', 'assignments.submissions.user'])
+            ->paginate(4);
+
+
+        return Inertia::render('Submission/Index', [
+            'courses' => $courses,
+        ]);
+    }
+
     public function show(UserAssignmentSubmission $userAssignmentSubmission)
     {
-        return Inertia::render('Assignment/Submission', [
-            'userAssignmentSubmission' => $userAssignmentSubmission,
+        return Inertia::render('Submission/Show', [
+            'submission' => $userAssignmentSubmission,
         ]);
     }
 

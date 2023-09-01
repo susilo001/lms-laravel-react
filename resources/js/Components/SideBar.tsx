@@ -6,6 +6,7 @@ import {
     ChatBubbleLeftRightIcon,
     ClipboardDocumentCheckIcon,
     ClipboardDocumentListIcon,
+    DocumentCheckIcon,
     HomeIcon,
     MagnifyingGlassIcon,
     PowerIcon,
@@ -62,6 +63,17 @@ export default function SideBar({ user }: { user: User }) {
                 routeName: "forums.index",
             },
         ];
+
+        if (user.roles[0].name === "teacher") {
+            return [
+                ...commonItems,
+                {
+                    label: "Assessments",
+                    icon: DocumentCheckIcon,
+                    routeName: "submission.index",
+                },
+            ];
+        }
 
         return commonItems;
     };

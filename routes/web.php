@@ -89,7 +89,9 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/teacher/grading', [TeacherController::class, 'grading'])->name('teacher.grading');
 
-        Route::get('/student/{user:name}/submission', [UserAssignmentSubmissionController::class, 'show'])->name('submission.show');
+        Route::get('/submission/{userAssignmentSubmission}', [UserAssignmentSubmissionController::class, 'show'])->name('submission.show');
+
+        Route::get('/student/submissions', [UserAssignmentSubmissionController::class, 'index'])->name('submission.index');
     });
 
     /**

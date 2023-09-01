@@ -15,6 +15,10 @@ class UserAssignmentSubmission extends Model
         'submission_file',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:d M Y',
+    ];
+
     public function assignment()
     {
         return $this->belongsTo(Assignment::class);
