@@ -80,24 +80,8 @@ class UserAssignmentSubmissionTest extends TestCase
             'user_id' => $this->student->id,
         ]);
 
-        $response = $this->get(route('submission.show', $this->student->name));
+        $response = $this->get(route('submission.index'));
 
         $response->assertStatus(200);
-
-        $response = $this->post(route('teacher.grading'), [
-            'course_id' => $this->assignment->course_id,
-            'student_id' => $this->student->id,
-            'gradeable_id' => $this->assignment->id,
-            'gradeable_type' => 'App\Models\Assignment',
-            'score' => 100,
-        ]);
-
-        $this->assertDatabaseHas('grades', [
-            'course_id' => $this->assignment->course_id,
-            'user_id' => $this->student->id,
-            'gradeable_id' => $this->assignment->id,
-            'gradeable_type' => 'App\Models\Assignment',
-            'score' => 100,
-        ]);
     }
 }

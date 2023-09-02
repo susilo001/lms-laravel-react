@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
@@ -15,20 +16,30 @@ class UserController extends Controller
         $users = User::with('roles')->paginate(10);
 
         return Inertia::render('User/Index', [
-            'users' => $users,
+            'users' => UserResource::collection($users),
         ]);
     }
 
     public function show(User $user)
     {
         return Inertia::render('User/Show', [
-            'user' => $user,
+            'user' => new UserResource($user),
         ]);
     }
 
     public function create()
     {
         return Inertia::render('User/Create');
+    }
+
+    public function edit(User $user)
+    {
+        $roles = Role::all();
+
+        return Inertia::render('User/Edit', [
+            'user' => new UserResource($user),
+            'roles' => $roles,
+        ]);
     }
 
     public function store(StoreUserRequest $request)
@@ -42,15 +53,6 @@ class UserController extends Controller
         return to_route('users.index')->with(['status' => 'Success', 'message' => 'User created successfully.']);
     }
 
-    public function edit(User $user)
-    {
-        $roles = Role::all();
-
-        return Inertia::render('User/Edit', [
-            'user' => $user,
-            'roles' => $roles,
-        ]);
-    }
 
     public function update(UpdateUserRequest $request, User $user)
     {

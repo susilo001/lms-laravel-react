@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreModuleRequest;
-use App\Http\Requests\UpdateModuleRequest;
+use Inertia\Inertia;
 use App\Models\Module;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use App\Http\Resources\ModuleResource;
+use App\Http\Requests\StoreModuleRequest;
+use App\Http\Requests\UpdateModuleRequest;
 
 class ModuleController extends Controller
 {
@@ -25,14 +26,14 @@ class ModuleController extends Controller
     public function show(Module $module)
     {
         return Inertia::render('Module/Show', [
-            'module' => $module,
+            'module' => new ModuleResource($module),
         ]);
     }
 
     public function edit(Module $module)
     {
         return Inertia::render('Module/Edit', [
-            'module' => $module,
+            'module' => new ModuleResource($module),
         ]);
     }
 

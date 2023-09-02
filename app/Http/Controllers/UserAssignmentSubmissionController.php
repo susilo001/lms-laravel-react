@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAssignmentSubmissionRequest;
+use App\Http\Resources\CourseResource;
 use App\Models\Assignment;
 use App\Models\Course;
 use App\Models\UserAssignmentSubmission;
@@ -22,7 +23,7 @@ class UserAssignmentSubmissionController extends Controller
 
 
         return Inertia::render('Submission/Index', [
-            'courses' => $courses,
+            'courses' => CourseResource::collection($courses),
         ]);
     }
 

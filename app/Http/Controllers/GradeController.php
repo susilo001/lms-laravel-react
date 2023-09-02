@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\EnrollmentResource;
 use Inertia\Inertia;
 use App\Models\Grade;
 use App\Models\Enrollment;
@@ -14,13 +15,13 @@ class GradeController extends Controller
     {
         $user = $request->user();
 
-        $enrollmentsWithGrades = Enrollment::where('user_id', $user->id)
+        $enrollments = Enrollment::where('user_id', $user->id)
             ->with(['course.grades' => function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             }])->paginate(10);
 
         return Inertia::render('Grade/Index', [
-            'enrollments' => $enrollmentsWithGrades,
+            'enrollments' => EnrollmentResource::collection($enrollments),
         ]);
     }
 

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
+use App\Models\Course;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use App\Http\Resources\CourseCollection;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
-use App\Models\Category;
-use App\Models\Course;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CourseResource;
 
 class CourseController extends Controller
 {
@@ -27,29 +30,35 @@ class CourseController extends Controller
         }
 
         return Inertia::render('Course/Index', [
-            'courses' => $courses,
+            'courses' => new CourseCollection($courses),
         ]);
     }
 
     public function show(Course $course)
     {
+        $data = $course->load(['modules', 'assignments', 'quizzes', 'category', 'user', 'media', 'forum.threads.user', 'forum.threads.posts.user']);
+
         return Inertia::render('Course/Show', [
-            'course' => $course->load(['modules', 'assignments', 'quizzes', 'category', 'user', 'media', 'forum.threads.user.media', 'forum.threads.posts.user.media']),
+            'course' => new CourseResource($data),
         ]);
     }
 
     public function create()
     {
+        $categories = Category::all(['id', 'name']);
+
         return Inertia::render('Course/Create', [
-            'categories' => Category::all(['id', 'name']),
+            'categories' => CategoryResource::collection($categories),
         ]);
     }
 
     public function edit(Course $course)
     {
+        $categories = Category::all(['id', 'name']);
+
         return Inertia::render('Course/Edit', [
-            'course' => $course->load(['modules', 'assignments', 'quizzes']),
-            'categories' => Category::all(['id', 'name']),
+            'course' => new CourseResource($course->load(['modules', 'assignments', 'quizzes'])),
+            'categories' => CategoryResource::collection($categories),
         ]);
     }
 

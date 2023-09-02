@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreForumRequest;
 use App\Http\Requests\UpdateForumRequest;
+use App\Http\Resources\ForumResource;
 use App\Models\Forum;
 use Inertia\Inertia;
 
@@ -14,14 +15,14 @@ class ForumController extends Controller
         $forums = Forum::with(['course'])->withCount(['threads'])->paginate(8);
 
         return Inertia::render('Forum/Index', [
-            'forums' => $forums,
+            'forums' => ForumResource::collection($forums),
         ]);
     }
 
     public function show(Forum $forum)
     {
         return Inertia::render('Forum/Show', [
-            'forum' => $forum->load(['course', 'threads.user.media']),
+            'forum' => new ForumResource($forum->load(['course', 'threads.user.media'])),
         ]);
     }
 
@@ -33,7 +34,7 @@ class ForumController extends Controller
     public function edit(Forum $forum)
     {
         return Inertia::render('Forum/Edit', [
-            'forum' => $forum,
+            'forum' => new ForumResource($forum),
         ]);
     }
 

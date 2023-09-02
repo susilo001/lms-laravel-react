@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreThreadRequest;
 use App\Http\Requests\UpdateThreadRequest;
+use App\Http\Resources\ThreadResource;
 use App\Models\Thread;
 use Inertia\Inertia;
 
@@ -12,7 +13,7 @@ class ThreadController extends Controller
     public function show(Thread $thread)
     {
         return Inertia::render('Thread/Show', [
-            'thread' => $thread->load(['user.media', 'posts.user.media']),
+            'thread' => new ThreadResource($thread->load(['user.media', 'posts.user.media'])),
         ]);
     }
 

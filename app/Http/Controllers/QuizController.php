@@ -7,8 +7,10 @@ use Inertia\Inertia;
 use App\Models\Course;
 use App\Models\Enrollment;
 use Illuminate\Http\Request;
+use App\Http\Resources\QuizResource;
 use App\Http\Requests\StoreQuizRequest;
 use App\Http\Requests\UpdateQuizRequest;
+use App\Http\Resources\EnrollmentResource;
 
 class QuizController extends Controller
 {
@@ -16,13 +18,13 @@ class QuizController extends Controller
     {
         $userId = $request->user()->id;
 
-        $enrollment = Enrollment::where('user_id', $userId)
+        $enrollments = Enrollment::where('user_id', $userId)
             ->with(['course.quizzes.attempts' => function ($query) use ($userId) {
                 $query->where('user_id', $userId);
             }])->paginate(10);
 
         return Inertia::render('Quiz/Index', [
-            'enrollments' => $enrollment,
+            'enrollments' => EnrollmentResource::collection($enrollments),
         ]);
     }
 
@@ -34,14 +36,14 @@ class QuizController extends Controller
     public function show(Quiz $quiz)
     {
         return Inertia::render('Quiz/Show', [
-            'quiz' => $quiz->load('questions'),
+            'quiz' => new QuizResource($quiz->load('questions')),
         ]);
     }
 
-    public function edit(Course $course)
+    public function edit(Quiz $quiz)
     {
         return Inertia::render('Quiz/Edit', [
-            'course' => $course,
+            'quiz' => new QuizResource($quiz->load('questions')),
         ]);
     }
 

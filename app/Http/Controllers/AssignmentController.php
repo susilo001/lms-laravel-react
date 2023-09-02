@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Course;
 use App\Models\Assignment;
+use App\Models\Enrollment;
 use Illuminate\Http\Request;
+use App\Http\Resources\AssignmentResource;
+use App\Http\Resources\EnrollmentResource;
 use App\Http\Requests\StoreAssignmentRequest;
 use App\Http\Requests\UpdateAssignmentRequest;
-use App\Models\Enrollment;
 
 class AssignmentController extends Controller
 {
@@ -22,7 +24,7 @@ class AssignmentController extends Controller
             }])->paginate(10);
 
         return Inertia::render('Assignment/Index', [
-            'enrollments' => $enrollment,
+            'enrollments' => EnrollmentResource::collection($enrollment),
         ]);
     }
 
@@ -34,7 +36,7 @@ class AssignmentController extends Controller
     public function show(Assignment $assignment)
     {
         return Inertia::render('Assignment/Show', [
-            'assignment' => $assignment,
+            'assignment' => new AssignmentResource($assignment),
         ]);
     }
 

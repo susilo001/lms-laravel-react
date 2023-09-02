@@ -87,7 +87,7 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('quizzes', QuizController::class)->except(['index', 'show']);
 
-        Route::post('/teacher/grading', [TeacherController::class, 'grading'])->name('teacher.grading');
+        Route::get('/test', [TeacherController::class, 'index'])->name('teacher.index');
 
         Route::get('/submission/{userAssignmentSubmission}', [UserAssignmentSubmissionController::class, 'show'])->name('submission.show');
 
